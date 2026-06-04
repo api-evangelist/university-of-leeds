@@ -1,0 +1,76 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "dc": "http://purl.org/dc/terms/",
+    "oai": "http://www.openarchives.org/OAI/2.0/",
+    "iiif": "http://iiif.io/api/presentation/3#",
+    "uol": "https://api-evangelist.github.io/university-of-leeds/vocab#",
+    "@vocab": "https://api-evangelist.github.io/university-of-leeds/vocab#",
+
+    "University": "schema:CollegeOrUniversity",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "logo": "schema:logo",
+    "sameAs": "schema:sameAs",
+    "department": "schema:department",
+    "email": "schema:email",
+
+    "Repository": "uol:Repository",
+    "Dataset": "schema:Dataset",
+    "identifier": "schema:identifier",
+    "datePublished": "schema:datePublished",
+    "creator": "schema:creator",
+    "license": "schema:license",
+    "distribution": "schema:distribution",
+
+    "metadataPrefix": "uol:metadataPrefix",
+    "metadataFormat": "oai:metadataFormat",
+    "baseURL": {
+      "@id": "oai:baseURL",
+      "@type": "@id"
+    },
+    "protocolVersion": "oai:protocolVersion",
+    "adminEmail": "oai:adminEmail",
+
+    "Manifest": "iiif:Manifest",
+    "manifestUrl": {
+      "@id": "iiif:id",
+      "@type": "@id"
+    },
+
+    "CreativeWork": "schema:CreativeWork",
+    "image": "schema:image",
+    "thumbnail": "schema:thumbnail"
+  },
+  "@type": "University",
+  "name": "University of Leeds",
+  "url": "https://www.leeds.ac.uk/",
+  "description": "Public research university in Leeds, United Kingdom, and member of the Russell Group. Its public API footprint centers on the University Libraries: a live EPrints-based Research Data Leeds Repository exposing an OAI-PMH 2.0 endpoint, IIIF-enabled Cultural Collections, and Ex Libris Alma/Primo library discovery.",
+  "sameAs": [
+    "https://github.com/uol-library",
+    "https://www.linkedin.com/school/university-of-leeds/"
+  ],
+  "department": [
+    {
+      "@type": "Repository",
+      "name": "Research Data Leeds Repository",
+      "url": "https://archive.researchdata.leeds.ac.uk/",
+      "baseURL": "https://archive.researchdata.leeds.ac.uk/cgi/oai2",
+      "protocolVersion": "2.0",
+      "adminEmail": "researchdataenquiries@leeds.ac.uk",
+      "metadataFormat": ["oai_dc", "didl", "mets", "rdf", "uketd_dc", "oai_bibl"]
+    },
+    {
+      "@type": "schema:Library",
+      "name": "University of Leeds Libraries Cultural Collections (IIIF)",
+      "url": "https://library.leeds.ac.uk/info/1500/special_collections"
+    },
+    {
+      "@type": "schema:Library",
+      "name": "University of Leeds Library Search (Ex Libris Alma / Primo)",
+      "url": "https://library.leeds.ac.uk/"
+    }
+  ]
+}

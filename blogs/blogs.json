@@ -1,0 +1,14 @@
+{
+  "repo": "university-of-leeds",
+  "feeds": [
+    {
+      "source": "https://leedsunilibrary.wordpress.com/",
+      "feed_url": "https://leedsunilibrary.wordpress.com/feed/",
+      "title": "University of Leeds Libraries Blog",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-03T00:00:00Z"
+}
