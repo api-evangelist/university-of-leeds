@@ -1,0 +1,56 @@
+---
+name: University of Leeds
+description: University of Leeds public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/university-of-leeds/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 2
+    summary: >-
+      Leeds has no central self-service developer portal. The clearest public,
+      machine-readable API is the EPrints Research Data Leeds Repository OAI-PMH
+      2.0 endpoint, which I verified live (Identify and ListMetadataFormats both
+      returned HTTP 200). Libraries' Cultural Collections are IIIF-enabled via a
+      Digirati-built stack, but manifests are discovered per catalogue record and
+      no developer reference or fixed manifest base URL is published. Library
+      discovery runs on Ex Libris Alma/Primo whose APIs are vendor-gated and
+      undocumented by Leeds. A real GitHub org (uol-library, 22 repos) and the
+      official LinkedIn school page were confirmed. data.leeds.ac.uk is a
+      third-party data consultancy (not the university open-data portal) and
+      returned 403 to automated requests; the old id.leeds.ac.uk linked-data site
+      now 301-redirects away. No endpoints were fabricated.
+    endpoints:
+      - url: https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=Identify
+        status: 200
+        note: Live OAI-PMH 2.0 Identify; repository "Research Data Leeds Repository", EPrints 3.3.16.
+      - url: https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=ListMetadataFormats
+        status: 200
+        note: Live OAI-PMH ListMetadataFormats response.
+      - url: https://archive.researchdata.leeds.ac.uk/
+        status: 200
+        note: Research Data Leeds Repository front end (EPrints), Atom/RSS feeds present.
+      - url: https://library.leeds.ac.uk/info/1500/special_collections
+        status: 200
+        note: Cultural Collections / Special Collections; IIIF manifests exposed per record.
+      - url: https://library.leeds.ac.uk/
+        status: 200
+        note: Library homepage; Library Search powered by Ex Libris Primo/Alma.
+      - url: https://library.leeds.ac.uk/info/1100/search-resources
+        status: 200
+        note: Search resources page for Primo-based discovery.
+      - url: https://github.com/uol-library
+        status: 200
+        note: Verified GitHub org "University of Leeds Library", 22 public repos (incl. eprints-iiif-manifest, eprints-oai-id).
+      - url: https://www.linkedin.com/school/university-of-leeds/
+        status: 200
+        note: Official University of Leeds LinkedIn school page.
+      - url: https://www.leeds.ac.uk/
+        status: 200
+        note: Official institution website.
+      - url: https://data.leeds.ac.uk/
+        status: 403
+        note: Third-party data consultancy (not university open data); blocks automated requests.
+      - url: http://id.leeds.ac.uk/
+        status: 301
+        note: Legacy linked-open-data host; now redirects away, no live SPARQL/API confirmed.

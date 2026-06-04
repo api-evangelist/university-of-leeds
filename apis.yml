@@ -1,0 +1,97 @@
+---
+aid: university-of-leeds
+name: University of Leeds
+description: >-
+  The University of Leeds is a public research university in Leeds, United
+  Kingdom, ranked #60 in the QS World University Rankings 2025. With more than
+  34,000 students and over 7,000 staff, it is a member of the Russell Group of
+  research-intensive universities. Its public developer/API footprint is
+  modest and centered on the Libraries: a live EPrints-based Research Data Leeds
+  Repository exposing an OAI-PMH 2.0 endpoint, IIIF-enabled Cultural Collections
+  delivered via a Digirati-built digital library infrastructure, and an active
+  GitHub organisation (uol-library). Library discovery runs on Ex Libris
+  Alma/Primo, whose APIs are vendor-provided rather than institution-documented.
+  No central, self-service developer portal was found.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/university-of-leeds/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - United Kingdom
+  - Research Data
+  - Libraries
+  - OAI-PMH
+  - IIIF
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: university-of-leeds:research-data-oai
+    name: Research Data Leeds Repository (OAI-PMH)
+    description: >-
+      The institutional research data repository for the University of Leeds,
+      powered by EPrints 3. It exposes a live OAI-PMH 2.0 endpoint for harvesting
+      Dublin Core and related metadata records describing deposited research
+      datasets, plus Atom and RSS feeds. Verified live (HTTP 200) on
+      2026-06-03 via verb=Identify and verb=ListMetadataFormats.
+    humanURL: https://archive.researchdata.leeds.ac.uk/
+    baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
+    tags: [ Research Data, OAI-PMH, EPrints, Metadata, Repository ]
+    properties:
+      - type: Documentation
+        url: https://archive.researchdata.leeds.ac.uk/
+      - type: Authentication
+        url: https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=Identify
+  - aid: university-of-leeds:iiif-cultural-collections
+    name: Cultural Collections IIIF
+    description: >-
+      The University of Leeds Libraries' Cultural Collections are IIIF-enabled
+      through a digital library infrastructure built in partnership with
+      Digirati (IIIF Image API at the access end, OCFL at the preservation end).
+      Tens of thousands of digitised manuscripts, rare books, artworks and coins
+      expose IIIF Manifest URLs from their catalogue records. No published
+      developer reference or fixed manifest base URL was confirmed; manifests are
+      discovered per-record from the Special Collections catalogue.
+    humanURL: https://library.leeds.ac.uk/info/1500/special_collections
+    tags: [ IIIF, Libraries, Digital Collections, Images, Cultural Heritage ]
+    properties:
+      - type: Documentation
+        url: https://library.leeds.ac.uk/info/1500/special_collections
+      - type: GitHub
+        url: https://github.com/uol-library/eprints-iiif-manifest
+  - aid: university-of-leeds:library-discovery
+    name: Library Search (Ex Libris Alma / Primo)
+    description: >-
+      University of Leeds Libraries discovery and resource management run on the
+      Ex Libris Alma library services platform with the Primo discovery layer
+      (migrated from Innovative Sierra). Programmatic access is available only
+      through the vendor's Alma/Primo REST and SRU APIs, which require
+      institution-issued keys; Leeds publishes no public developer documentation
+      for these endpoints.
+    humanURL: https://library.leeds.ac.uk/
+    tags: [ Libraries, Discovery, Alma, Primo, Ex Libris ]
+    properties:
+      - type: Documentation
+        url: https://library.leeds.ac.uk/info/1100/search-resources
+common:
+  - type: Website
+    url: https://www.leeds.ac.uk/
+  - type: GitHub
+    url: https://github.com/uol-library
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/university-of-leeds/
+  - type: Plans
+    url: plans/university-of-leeds-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/university-of-leeds-rate-limits.yml
+  - type: FinOps
+    url: finops/university-of-leeds-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
