@@ -78,6 +78,8 @@ apis:
       - type: Documentation
         url: https://library.leeds.ac.uk/info/1100/search-resources
 common:
+  - type: DomainSecurity
+    url: security/university-of-leeds-domain-security.yml
   - type: Website
     url: https://www.leeds.ac.uk/
   - type: GitHub
