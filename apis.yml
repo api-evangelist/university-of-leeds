@@ -69,7 +69,18 @@ apis:
       developer reference or fixed manifest base URL was confirmed; manifests are
       discovered per-record from the Special Collections catalogue.
     humanURL: https://library.leeds.ac.uk/info/1500/special_collections
-    tags: [ IIIF, Libraries, Digital Collections, Images, Cultural Heritage ]
+    tags:
+    - IIIF
+    - Libraries
+    - Digital Collections
+    - Image
+    - Cultural Heritage
+    tags_raw:
+    - IIIF
+    - Libraries
+    - Digital Collections
+    - Images
+    - Cultural Heritage
     properties:
       - type: Documentation
         url: https://library.leeds.ac.uk/info/1500/special_collections
