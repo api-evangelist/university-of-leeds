@@ -2,13 +2,20 @@
   "repo": "university-of-leeds",
   "feeds": [
     {
-      "source": "https://leedsunilibrary.wordpress.com/",
+      "source": "https://leedsunilibrary.wordpress.com/feed/",
       "feed_url": "https://leedsunilibrary.wordpress.com/feed/",
-      "title": "University of Leeds Libraries Blog",
-      "saved": 1,
-      "method": "rss"
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://it.leeds.ac.uk/it",
+      "feed_url": "https://it.leeds.ac.uk/it",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "post_count": 17,
-  "fetched": "2026-08-22T20:08:02Z"
+  "post_count": 18,
+  "fetched": "2026-08-30T22:33:40Z"
 }
