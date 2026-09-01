@@ -215,7 +215,18 @@ apis:
       IIIF" claim.
     humanURL: https://floorplans.library.leeds.ac.uk/
     baseURL: https://floorplans.library.leeds.ac.uk/assets/iiif
-    tags: [ IIIF, Images, Libraries, Wayfinding, Digital Collections ]
+    tags:
+    - IIIF
+    - Image
+    - Libraries
+    - Wayfinding
+    - Digital Collections
+    tags_raw:
+    - IIIF
+    - Images
+    - Libraries
+    - Wayfinding
+    - Digital Collections
     properties:
       - type: OpenAPI
         url: openapi/university-of-leeds-library-floorplans-iiif-openapi.yml
@@ -281,6 +292,9 @@ apis:
       - type: Documentation
         url: https://eprints.whiterose.ac.uk/
 common:
+  - type: License
+    name: Apache-2.0
+    url: https://github.com/uol-library/spacefinder/blob/main/LICENSE
   - type: Website
     url: https://www.leeds.ac.uk/
   - type: GitHubOrganization
