@@ -103,194 +103,298 @@ x-coverage:
     - { url: 'https://catalogue.leeds.ac.uk/', status: 200 }
     - { url: 'https://www.leeds.ac.uk/llms.txt', status: 404 }
 apis:
-  - aid: university-of-leeds:research-data-oai
-    name: Research Data Leeds Repository (OAI-PMH)
-    x-operator: institution
-    x-operator-evidence: >-
-      archive.researchdata.leeds.ac.uk is under leeds.ac.uk and CNAMEs to roadmap4.leeds.ac.uk
-      (129.11.190.31, University of Leeds address space). Self-hosted EPrints 3 — open-source
-      software the institution runs itself, not a vendor-hosted tenancy. OAI Identify adminEmail is
-      researchdataenquiries@leeds.ac.uk.
-    description: >-
-      The University of Leeds institutional research data repository, running EPrints 3 on the
-      university's own infrastructure, with a live unauthenticated OAI-PMH 2.0 interface. Verified
-      2026-08-30: Identify returns protocolVersion 2.0, earliest datestamp 2023-07-27, deletedRecord
-      "persistent"; ListMetadataFormats returns six prefixes (oai_dc, didl, mets, oai_bibl, rdf,
-      uketd_dc); ListIdentifiers returned 100 identifiers on the first page. Datasets carry DataCite
-      DOIs under the university's own 10.5518 prefix. Protocol errors are returned at HTTP 200 inside
-      an <error> element — see errors/.
-    humanURL: https://archive.researchdata.leeds.ac.uk/
-    baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
-    tags: [ Research Data, OAI-PMH, EPrints, Metadata, Repository, DataCite ]
-    properties:
-      - type: OpenAPI
-        url: openapi/university-of-leeds-research-data-oai-pmh-openapi.yml
-      - type: Documentation
-        url: https://archive.researchdata.leeds.ac.uk/
-      - type: Examples
-        url: examples/university-of-leeds-research-data-oai-identify-example.xml
-      - type: Errors
-        url: errors/university-of-leeds-errors.yml
-      - type: Authentication
-        url: authentication/university-of-leeds-authentication.yml
-      - type: Conformance
-        url: conformance/university-of-leeds-conformance.yml
-  - aid: university-of-leeds:digital-library
-    name: Leeds Digital Library (OAI-PMH and OpenSearch)
-    x-operator: institution
-    x-operator-evidence: >-
-      digital.library.leeds.ac.uk is under leeds.ac.uk and resolves to 129.11.78.169, University of
-      Leeds address space. Self-hosted EPrints. OAI adminEmail and OpenSearch Contact are both
-      @leeds.ac.uk.
-    description: >-
-      A second, separate institution-run EPrints deployment holding digitised Special Collections —
-      Bronte, incunabula, the Liddle Collection, cookery, history of science, the Leeds Permanent
-      Library. It exposes an OAI-PMH 2.0 endpoint (repositoryName "Digital Library", earliest
-      datestamp 2012-09-04) and an OpenSearch 1.1 description document offering Atom and BibTeX
-      result serialisations over /cgi/search/simple. Verified live 2026-08-30. Its
-      /cgi/iiif/manifest/{id} endpoint is a soft-200 returning a zero-byte body and is excluded.
-    humanURL: https://digital.library.leeds.ac.uk/
-    baseURL: https://digital.library.leeds.ac.uk/cgi/oai2
-    tags: [ Digital Collections, OAI-PMH, OpenSearch, EPrints, Libraries, Cultural Heritage ]
-    properties:
-      - type: OpenAPI
-        url: openapi/university-of-leeds-digital-library-openapi.yml
-      - type: Documentation
-        url: https://digital.library.leeds.ac.uk/
-      - type: APIReference
-        url: https://digital.library.leeds.ac.uk/cgi/opensearchdescription
-      - type: Examples
-        url: examples/university-of-leeds-digital-library-oai-identify-example.xml
-      - type: Errors
-        url: errors/university-of-leeds-errors.yml
-  - aid: university-of-leeds:spacefinder
-    name: Spacefinder Campus Space Data
-    x-operator: institution
-    x-operator-evidence: >-
-      spacefinder.leeds.ac.uk is under leeds.ac.uk. Application and data authored and maintained by
-      github.com/uol-library (University of Leeds Libraries). The site is served from GitHub Pages;
-      a code host is not an operator.
-    description: >-
-      The data layer behind the University of Leeds Libraries wayfinding application, published as
-      two unauthenticated static JSON documents. spaces.json returned 68 campus and library spaces on
-      2026-08-30 (137,649 bytes) with geolocation, per-weekday opening hours, facility and atmosphere
-      vocabularies, noise level, accessibility and access restriction; filters.json returns the six
-      facet groups the application uses. No key, no quota, no registration, and no version field —
-      validate every fetch against the derived JSON Schema. Built with the University of Cambridge's
-      Spacefinder Rails application as its starting point and released by Leeds as a Jekyll theme
-      other institutions can reuse.
-    humanURL: https://spacefinder.leeds.ac.uk/
-    baseURL: https://spacefinder.leeds.ac.uk
-    tags: [ Open Data, Campus Life, Study Spaces, Wayfinding, GeoJSON, Accessibility, Libraries ]
-    properties:
-      - type: OpenAPI
-        url: openapi/university-of-leeds-spacefinder-openapi.yml
-      - type: JSONSchema
-        url: json-schema/university-of-leeds-spacefinder-space.json
-      - type: Vocabulary
-        url: vocabulary/university-of-leeds-spacefinder-vocabulary.yml
-      - type: Examples
-        url: examples/university-of-leeds-spacefinder-spaces-example.json
-      - type: Documentation
-        url: https://github.com/uol-library/spacefinder.leeds.ac.uk
-      - type: SourceCode
-        url: https://github.com/uol-library/spacefinder
-      - type: Rules
-        url: rules/university-of-leeds-rules.yml
-  - aid: university-of-leeds:library-floorplans-iiif
-    name: Library Floor Plans IIIF Image API
-    x-operator: institution
-    x-operator-evidence: >-
-      floorplans.library.leeds.ac.uk is under leeds.ac.uk, CNAMEs to lib-sc-prd.leeds.ac.uk and
-      resolves to 129.11.190.52 (University of Leeds address space). Source at
-      github.com/uol-library/floorplans.library.leeds.ac.uk.
-    description: >-
-      A static IIIF Image API level 0 service on the institution's own host, serving high-resolution
-      floor plans for the Brotherton, Edward Boyle, Health Sciences and Laidlaw libraries in
-      "original" and "cropped" variants. Verified 2026-08-30: info.json returns protocol
-      http://iiif.io/api/image, profile level0, 1024x1024 tiles, scale factors [32,16,8,4,2,1] and a
-      5077x5988 source image; a derivative tile request also returned 200. Level 0 means only the
-      pre-generated sizes enumerated in info.json resolve. This is the only IIIF surface at Leeds
-      this profile could verify, and it replaces an unverifiable 2026-06-03 "Cultural Collections
-      IIIF" claim.
-    humanURL: https://floorplans.library.leeds.ac.uk/
-    baseURL: https://floorplans.library.leeds.ac.uk/assets/iiif
-    tags:
-    - IIIF
-    - Image
-    - Libraries
-    - Wayfinding
-    - Digital Collections
-    tags_raw:
-    - IIIF
-    - Images
-    - Libraries
-    - Wayfinding
-    - Digital Collections
-    properties:
-      - type: OpenAPI
-        url: openapi/university-of-leeds-library-floorplans-iiif-openapi.yml
-      - type: Documentation
-        url: https://library.leeds.ac.uk/locations
-      - type: APIReference
-        url: https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json
-      - type: Examples
-        url: examples/university-of-leeds-floorplans-iiif-info-example.json
-      - type: SourceCode
-        url: https://github.com/uol-library/floorplans.library.leeds.ac.uk
-  - aid: university-of-leeds:library-discovery-primo
-    name: Library Search (Ex Libris Alma / Primo) — tenancy
-    x-operator: tenant
-    x-operator-evidence: >-
-      Discovery runs at leeds.primo.exlibrisgroup.com with view id 44LEE_INST — an institution-
-      specific view on a vendor-operated platform, on the vendor's registrable domain. The 2026-06-03
-      profile carried a library.leeds.ac.uk humanURL on this entry, which made a vendor tenancy read
-      as institution-owned to a host-based verdict. Corrected 2026-08-30.
-    description: >-
-      RELATIONSHIP, NOT A CONTRACT. University of Leeds Libraries discovery and resource management
-      run on the Ex Libris Alma library services platform with the Primo discovery layer. The
-      tenancy is a real institutional fact — the collection, the holdings and the patron data are
-      Leeds'. The interface is not: Alma and Primo REST and SRU APIs are Ex Libris' engineering,
-      documented on the Ex Libris Developer Network, and keys are issued by Ex Libris to the
-      institution. No Ex Libris specification is stored in this repository and none should be; it
-      belongs in the Ex Libris profile. Leeds publishes no public developer documentation for these
-      endpoints.
-    humanURL: https://leeds.primo.exlibrisgroup.com/discovery/search?vid=44LEE_INST:VU1
-    tags: [ Libraries, Discovery, Alma, Primo, Ex Libris, Tenant ]
-    properties:
-      - type: Documentation
-        url: https://library.leeds.ac.uk/info/1100/search-resources
-      - type: VendorDocumentation
-        url: https://developers.exlibrisgroup.com/alma/apis/
-  - aid: university-of-leeds:white-rose-research-online
-    name: White Rose Research Online (OAI-PMH) — consortium tenancy
-    x-operator: tenant
-    x-operator-evidence: >-
-      eprints.whiterose.ac.uk is on whiterose.ac.uk, not leeds.ac.uk. OAI Identify returns
-      repositoryName "White Rose Research Online" with adminEmail eprints@whiterose.ac.uk. The
-      University of Leeds is one of three co-owning institutions (with Sheffield and York) of the
-      White Rose University Consortium, not the operator of the host.
-      audit-university-contracts.py returns a cohort-derived verdict of `vendor` on this host —
-      "same host claimed by 2 other institution(s)" — and that computation is correct. It is recorded
-      as `tenant` rather than `vendor` because White Rose is not a commercial platform with
-      customers: Leeds co-owns the consortium and the deposits are Leeds'. The BEHAVIOUR is identical
-      either way, and it is the behaviour that matters: no White Rose contract is saved under this
-      slug and no credit is taken for its engineering.
-    description: >-
-      RELATIONSHIP, NOT A CONTRACT. Leeds' scholarly publications repository is White Rose Research
-      Online, a shared EPrints platform operated by the White Rose University Consortium on behalf of
-      Leeds, Sheffield and York. It exposes a live OAI-PMH 2.0 endpoint (verified 2026-08-30,
-      earliest datestamp 2007-08-05). Leeds' outputs are in it and Leeds co-owns the consortium, but
-      the host is not under a Leeds registrable domain and the deposits of two other universities
-      share the same endpoint — so the interface is recorded as a tenancy and no White Rose
-      specification is stored under this slug. This is the correct handling of a shared contract: the
-      relationship is kept, the credit is not taken.
-    humanURL: https://eprints.whiterose.ac.uk/
-    baseURL: https://eprints.whiterose.ac.uk/cgi/oai2
-    tags: [ Research Repository, OAI-PMH, EPrints, Consortium, Open Access, Tenant ]
-    properties:
-      - type: Documentation
-        url: https://eprints.whiterose.ac.uk/
+- aid: university-of-leeds:library-discovery-primo
+  name: Library Search (Ex Libris Alma / Primo) — tenancy
+  x-operator: tenant
+  x-operator-evidence: >-
+    Discovery runs at leeds.primo.exlibrisgroup.com with view id 44LEE_INST — an institution- specific
+    view on a vendor-operated platform, on the vendor's registrable domain. The 2026-06-03 profile carried
+    a library.leeds.ac.uk humanURL on this entry, which made a vendor tenancy read as institution-owned
+    to a host-based verdict. Corrected 2026-08-30.
+  description: >-
+    RELATIONSHIP, NOT A CONTRACT. University of Leeds Libraries discovery and resource management run
+    on the Ex Libris Alma library services platform with the Primo discovery layer. The tenancy is a real
+    institutional fact — the collection, the holdings and the patron data are Leeds'. The interface is
+    not: Alma and Primo REST and SRU APIs are Ex Libris' engineering, documented on the Ex Libris Developer
+    Network, and keys are issued by Ex Libris to the institution. No Ex Libris specification is stored
+    in this repository and none should be; it belongs in the Ex Libris profile. Leeds publishes no public
+    developer documentation for these endpoints.
+  humanURL: https://leeds.primo.exlibrisgroup.com/discovery/search?vid=44LEE_INST:VU1
+  tags:
+  - Libraries
+  - Discovery
+  - Alma
+  - Primo
+  - Ex Libris
+  - Tenant
+  properties:
+  - type: Documentation
+    url: https://library.leeds.ac.uk/info/1100/search-resources
+  - type: VendorDocumentation
+    url: https://developers.exlibrisgroup.com/alma/apis/
+- aid: university-of-leeds:white-rose-research-online
+  name: White Rose Research Online (OAI-PMH) — consortium tenancy
+  x-operator: tenant
+  x-operator-evidence: >-
+    eprints.whiterose.ac.uk is on whiterose.ac.uk, not leeds.ac.uk. OAI Identify returns repositoryName
+    "White Rose Research Online" with adminEmail eprints@whiterose.ac.uk. The University of Leeds is one
+    of three co-owning institutions (with Sheffield and York) of the White Rose University Consortium,
+    not the operator of the host. audit-university-contracts.py returns a cohort-derived verdict of `vendor`
+    on this host — "same host claimed by 2 other institution(s)" — and that computation is correct. It
+    is recorded as `tenant` rather than `vendor` because White Rose is not a commercial platform with
+    customers: Leeds co-owns the consortium and the deposits are Leeds'. The BEHAVIOUR is identical either
+    way, and it is the behaviour that matters: no White Rose contract is saved under this slug and no
+    credit is taken for its engineering.
+  description: >-
+    RELATIONSHIP, NOT A CONTRACT. Leeds' scholarly publications repository is White Rose Research Online,
+    a shared EPrints platform operated by the White Rose University Consortium on behalf of Leeds, Sheffield
+    and York. It exposes a live OAI-PMH 2.0 endpoint (verified 2026-08-30, earliest datestamp 2007-08-05).
+    Leeds' outputs are in it and Leeds co-owns the consortium, but the host is not under a Leeds registrable
+    domain and the deposits of two other universities share the same endpoint — so the interface is recorded
+    as a tenancy and no White Rose specification is stored under this slug. This is the correct handling
+    of a shared contract: the relationship is kept, the credit is not taken.
+  humanURL: https://eprints.whiterose.ac.uk/
+  baseURL: https://eprints.whiterose.ac.uk/cgi/oai2
+  tags:
+  - Research Repository
+  - OAI-PMH
+  - EPrints
+  - Consortium
+  - Open Access
+  - Tenant
+  properties:
+  - type: Documentation
+    url: https://eprints.whiterose.ac.uk/
+- aid: university-of-leeds:university-of-leeds-facets-api
+  name: University of Leeds Facets API
+  description: Filtering vocabulary over the space dataset.
+  humanURL: https://archive.researchdata.leeds.ac.uk/
+  baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
+  tags:
+  - Facets
+  properties:
+  - type: OpenAPI
+    url: openapi/university-of-leeds-facets-api-openapi.yml
+  - type: Documentation
+    url: https://archive.researchdata.leeds.ac.uk/
+  - type: Examples
+    url: examples/university-of-leeds-research-data-oai-identify-example.xml
+  - type: Errors
+    url: errors/university-of-leeds-errors.yml
+  - type: Authentication
+    url: authentication/university-of-leeds-authentication.yml
+  - type: Conformance
+    url: conformance/university-of-leeds-conformance.yml
+  - type: Documentation
+    url: https://digital.library.leeds.ac.uk/
+  - type: APIReference
+    url: https://digital.library.leeds.ac.uk/cgi/opensearchdescription
+  - type: Examples
+    url: examples/university-of-leeds-digital-library-oai-identify-example.xml
+  - type: JSONSchema
+    url: json-schema/university-of-leeds-spacefinder-space.json
+  - type: Vocabulary
+    url: vocabulary/university-of-leeds-spacefinder-vocabulary.yml
+  - type: Examples
+    url: examples/university-of-leeds-spacefinder-spaces-example.json
+  - type: Documentation
+    url: https://github.com/uol-library/spacefinder.leeds.ac.uk
+  - type: SourceCode
+    url: https://github.com/uol-library/spacefinder
+  - type: Rules
+    url: rules/university-of-leeds-rules.yml
+  - type: Documentation
+    url: https://library.leeds.ac.uk/locations
+  - type: APIReference
+    url: https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json
+  - type: Examples
+    url: examples/university-of-leeds-floorplans-iiif-info-example.json
+  - type: SourceCode
+    url: https://github.com/uol-library/floorplans.library.leeds.ac.uk
+- aid: university-of-leeds:university-of-leeds-iiif-image-api
+  name: University of Leeds IIIF Image API
+  description: IIIF Image API level 0 static tile service.
+  humanURL: https://archive.researchdata.leeds.ac.uk/
+  baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
+  tags:
+  - IIIF Image
+  properties:
+  - type: OpenAPI
+    url: openapi/university-of-leeds-iiif-image-api-openapi.yml
+  - type: Documentation
+    url: https://archive.researchdata.leeds.ac.uk/
+  - type: Examples
+    url: examples/university-of-leeds-research-data-oai-identify-example.xml
+  - type: Errors
+    url: errors/university-of-leeds-errors.yml
+  - type: Authentication
+    url: authentication/university-of-leeds-authentication.yml
+  - type: Conformance
+    url: conformance/university-of-leeds-conformance.yml
+  - type: Documentation
+    url: https://digital.library.leeds.ac.uk/
+  - type: APIReference
+    url: https://digital.library.leeds.ac.uk/cgi/opensearchdescription
+  - type: Examples
+    url: examples/university-of-leeds-digital-library-oai-identify-example.xml
+  - type: JSONSchema
+    url: json-schema/university-of-leeds-spacefinder-space.json
+  - type: Vocabulary
+    url: vocabulary/university-of-leeds-spacefinder-vocabulary.yml
+  - type: Examples
+    url: examples/university-of-leeds-spacefinder-spaces-example.json
+  - type: Documentation
+    url: https://github.com/uol-library/spacefinder.leeds.ac.uk
+  - type: SourceCode
+    url: https://github.com/uol-library/spacefinder
+  - type: Rules
+    url: rules/university-of-leeds-rules.yml
+  - type: Documentation
+    url: https://library.leeds.ac.uk/locations
+  - type: APIReference
+    url: https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json
+  - type: Examples
+    url: examples/university-of-leeds-floorplans-iiif-info-example.json
+  - type: SourceCode
+    url: https://github.com/uol-library/floorplans.library.leeds.ac.uk
+- aid: university-of-leeds:university-of-leeds-oai-pmh-api
+  name: University of Leeds OAI PMH API
+  description: Open Archives Initiative Protocol for Metadata Harvesting 2.0.
+  humanURL: https://archive.researchdata.leeds.ac.uk/
+  baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
+  tags:
+  - OAI-PMH
+  properties:
+  - type: OpenAPI
+    url: openapi/university-of-leeds-oai-pmh-api-openapi.yml
+  - type: Documentation
+    url: https://archive.researchdata.leeds.ac.uk/
+  - type: Examples
+    url: examples/university-of-leeds-research-data-oai-identify-example.xml
+  - type: Errors
+    url: errors/university-of-leeds-errors.yml
+  - type: Authentication
+    url: authentication/university-of-leeds-authentication.yml
+  - type: Conformance
+    url: conformance/university-of-leeds-conformance.yml
+  - type: Documentation
+    url: https://digital.library.leeds.ac.uk/
+  - type: APIReference
+    url: https://digital.library.leeds.ac.uk/cgi/opensearchdescription
+  - type: Examples
+    url: examples/university-of-leeds-digital-library-oai-identify-example.xml
+  - type: JSONSchema
+    url: json-schema/university-of-leeds-spacefinder-space.json
+  - type: Vocabulary
+    url: vocabulary/university-of-leeds-spacefinder-vocabulary.yml
+  - type: Examples
+    url: examples/university-of-leeds-spacefinder-spaces-example.json
+  - type: Documentation
+    url: https://github.com/uol-library/spacefinder.leeds.ac.uk
+  - type: SourceCode
+    url: https://github.com/uol-library/spacefinder
+  - type: Rules
+    url: rules/university-of-leeds-rules.yml
+  - type: Documentation
+    url: https://library.leeds.ac.uk/locations
+  - type: APIReference
+    url: https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json
+  - type: Examples
+    url: examples/university-of-leeds-floorplans-iiif-info-example.json
+  - type: SourceCode
+    url: https://github.com/uol-library/floorplans.library.leeds.ac.uk
+- aid: university-of-leeds:university-of-leeds-spaces-api
+  name: University of Leeds Spaces API
+  description: Campus and library study spaces.
+  humanURL: https://archive.researchdata.leeds.ac.uk/
+  baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
+  tags:
+  - Spaces
+  properties:
+  - type: OpenAPI
+    url: openapi/university-of-leeds-spaces-api-openapi.yml
+  - type: Documentation
+    url: https://archive.researchdata.leeds.ac.uk/
+  - type: Examples
+    url: examples/university-of-leeds-research-data-oai-identify-example.xml
+  - type: Errors
+    url: errors/university-of-leeds-errors.yml
+  - type: Authentication
+    url: authentication/university-of-leeds-authentication.yml
+  - type: Conformance
+    url: conformance/university-of-leeds-conformance.yml
+  - type: Documentation
+    url: https://digital.library.leeds.ac.uk/
+  - type: APIReference
+    url: https://digital.library.leeds.ac.uk/cgi/opensearchdescription
+  - type: Examples
+    url: examples/university-of-leeds-digital-library-oai-identify-example.xml
+  - type: JSONSchema
+    url: json-schema/university-of-leeds-spacefinder-space.json
+  - type: Vocabulary
+    url: vocabulary/university-of-leeds-spacefinder-vocabulary.yml
+  - type: Examples
+    url: examples/university-of-leeds-spacefinder-spaces-example.json
+  - type: Documentation
+    url: https://github.com/uol-library/spacefinder.leeds.ac.uk
+  - type: SourceCode
+    url: https://github.com/uol-library/spacefinder
+  - type: Rules
+    url: rules/university-of-leeds-rules.yml
+  - type: Documentation
+    url: https://library.leeds.ac.uk/locations
+  - type: APIReference
+    url: https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json
+  - type: Examples
+    url: examples/university-of-leeds-floorplans-iiif-info-example.json
+  - type: SourceCode
+    url: https://github.com/uol-library/floorplans.library.leeds.ac.uk
+- aid: university-of-leeds:university-of-leeds-open-search-api
+  name: University of Leeds Open Search API
+  description: OpenSearch 1.1 description and search result feeds.
+  humanURL: https://leeds.primo.exlibrisgroup.com/discovery/search?vid=44LEE_INST:VU1
+  baseURL: https://eprints.whiterose.ac.uk/cgi/oai2
+  tags:
+  - Open Search
+  properties:
+  - type: OpenAPI
+    url: openapi/university-of-leeds-open-search-api-openapi.yml
+  - type: Documentation
+    url: https://archive.researchdata.leeds.ac.uk/
+  - type: Examples
+    url: examples/university-of-leeds-research-data-oai-identify-example.xml
+  - type: Errors
+    url: errors/university-of-leeds-errors.yml
+  - type: Authentication
+    url: authentication/university-of-leeds-authentication.yml
+  - type: Conformance
+    url: conformance/university-of-leeds-conformance.yml
+  - type: Documentation
+    url: https://digital.library.leeds.ac.uk/
+  - type: APIReference
+    url: https://digital.library.leeds.ac.uk/cgi/opensearchdescription
+  - type: Examples
+    url: examples/university-of-leeds-digital-library-oai-identify-example.xml
+  - type: JSONSchema
+    url: json-schema/university-of-leeds-spacefinder-space.json
+  - type: Vocabulary
+    url: vocabulary/university-of-leeds-spacefinder-vocabulary.yml
+  - type: Examples
+    url: examples/university-of-leeds-spacefinder-spaces-example.json
+  - type: Documentation
+    url: https://github.com/uol-library/spacefinder.leeds.ac.uk
+  - type: SourceCode
+    url: https://github.com/uol-library/spacefinder
+  - type: Rules
+    url: rules/university-of-leeds-rules.yml
+  - type: Documentation
+    url: https://library.leeds.ac.uk/locations
+  - type: APIReference
+    url: https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json
+  - type: Examples
+    url: examples/university-of-leeds-floorplans-iiif-info-example.json
+  - type: SourceCode
+    url: https://github.com/uol-library/floorplans.library.leeds.ac.uk
 common:
   - type: License
     name: Apache-2.0
