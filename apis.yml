@@ -126,6 +126,13 @@ apis:
   - Alma
   - Primo
   - Ex Libris
+  - Tenants
+  tags_raw:
+  - Libraries
+  - Discovery
+  - Alma
+  - Primo
+  - Ex Libris
   - Tenant
   properties:
   - type: Documentation
@@ -156,6 +163,13 @@ apis:
   humanURL: https://eprints.whiterose.ac.uk/
   baseURL: https://eprints.whiterose.ac.uk/cgi/oai2
   tags:
+  - Research Repository
+  - OAI-PMH
+  - EPrints
+  - Consortium
+  - Open Access
+  - Tenants
+  tags_raw:
   - Research Repository
   - OAI-PMH
   - EPrints
@@ -309,6 +323,8 @@ apis:
   humanURL: https://archive.researchdata.leeds.ac.uk/
   baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
   tags:
+  - Space
+  tags_raw:
   - Spaces
   properties:
   - type: OpenAPI
@@ -355,6 +371,8 @@ apis:
   humanURL: https://leeds.primo.exlibrisgroup.com/discovery/search?vid=44LEE_INST:VU1
   baseURL: https://eprints.whiterose.ac.uk/cgi/oai2
   tags:
+  - OpenSearch
+  tags_raw:
   - Open Search
   properties:
   - type: OpenAPI
