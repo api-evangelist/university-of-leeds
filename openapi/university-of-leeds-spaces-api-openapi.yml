@@ -1,0 +1,163 @@
+openapi: 3.2.0
+info:
+  title: University of Leeds Spacefinder Data Spaces API
+  version: 1.0.0
+  summary: Machine-readable study-space and campus-space data published by University of Leeds Libraries.
+  description: Spacefinder is the University of Leeds Libraries wayfinding application.
+  contact:
+    name: University of Leeds Libraries
+    url: https://library.leeds.ac.uk/
+  license:
+    name: See repository licence
+    url: https://github.com/uol-library/spacefinder.leeds.ac.uk/blob/main/LICENSE
+  x-operator: institution
+  x-operator-evidence: Host spacefinder.leeds.ac.uk is under the University of Leeds registrable domain leeds.ac.uk. Application and data authored by github.com/uol-library (University of Leeds Libraries).
+  x-provenance:
+    generated: '2026-08-30'
+    method: derived
+    source: Derived from live responses to GET https://spacefinder.leeds.ac.uk/spaces.json (HTTP 200, application/json, 137,649 bytes, 68 objects) and GET https://spacefinder.leeds.ac.uk/filters.json (HTTP 200, 6 facet groups), probed 2026-08-30.
+servers:
+- url: https://spacefinder.leeds.ac.uk
+  description: Production (institution-operated, GitHub Pages hosted)
+security: []
+tags:
+- name: Spaces
+  description: Campus and library study spaces.
+paths:
+  /spaces.json:
+    get:
+      operationId: listSpaces
+      summary: List every published campus study space
+      description: Returns the complete Spacefinder dataset as a JSON array. No pagination, no parameters, no authentication. Observed 68 spaces on 2026-08-30.
+      tags:
+      - Spaces
+      security: []
+      responses:
+        '200':
+          description: The complete space collection.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Space'
+              examples:
+                brackets:
+                  summary: First space in the live response (2026-08-30)
+                  externalValue: ../examples/university-of-leeds-spacefinder-spaces-example.json
+        '404':
+          description: Not found.
+components:
+  schemas:
+    Space:
+      type: object
+      description: One campus or library space. Field set read from the live 2026-08-30 response.
+      required:
+      - id
+      - title
+      - slug
+      - building
+      properties:
+        id:
+          type: integer
+          description: Numeric identifier, stable within the dataset.
+        title:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        building:
+          type: string
+        floor:
+          type: string
+        address:
+          type: string
+        lat:
+          type: number
+        lng:
+          type: number
+        location:
+          type: string
+          description: A GeoJSON Point serialised as a JSON STRING, not as a nested object. Consumers must JSON.parse this value. Observed form; not a defect we introduced.
+        what3words:
+          type: string
+        space_type:
+          type: string
+          enum:
+          - Cafe
+          - Communal
+          - Computer cluster
+          - Library
+          - Study space
+          description: Observed values on 2026-08-30; the publisher may add more.
+        noise:
+          type: string
+          enum:
+          - Background chatter
+          - Quiet
+          - Silent
+          - Some talking
+        access:
+          type: string
+          enum:
+          - Anyone (public)
+          - Staff and students
+          - Students only
+        restricted:
+          type: boolean
+        restriction:
+          type: string
+        disabled_access:
+          type: boolean
+        published:
+          type: boolean
+        facilities:
+          type: array
+          items:
+            type: string
+          description: Facility tokens; see vocabulary/university-of-leeds-spacefinder-vocabulary.yml.
+        atmosphere:
+          type: array
+          items:
+            type: string
+        work:
+          type: array
+          items:
+            type: string
+          description: Suitable working modes, e.g. private, close, friends, group, silent.
+        tags:
+          type: array
+          items:
+            type: string
+        opening_hours:
+          $ref: '#/components/schemas/OpeningHours'
+        images:
+          type: array
+          items:
+            type: object
+        links:
+          type: array
+          items:
+            type: object
+        contacts:
+          type: array
+          items:
+            type: object
+        facebook_url:
+          type: string
+        twitter_screen_name:
+          type: string
+    OpeningHours:
+      type: object
+      description: Per-weekday opening window. Keys are lowercase English weekday names.
+      additionalProperties:
+        type: object
+        properties:
+          open:
+            type: boolean
+          from:
+            type: string
+            description: H:MM or HH:MM local time; empty string when closed.
+          to:
+            type: string

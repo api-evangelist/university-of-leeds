@@ -1,0 +1,93 @@
+vocabulary_version: '0.1'
+method: derived
+evidence_method: probed
+probed: '2026-08-30'
+name: University of Leeds Spacefinder controlled values
+generated: '2026-08-30'
+method: derived
+source: Extracted from every value present in the live GET https://spacefinder.leeds.ac.uk/spaces.json
+  response (68 objects), probed 2026-08-30. Not a published vocabulary — the publisher
+  may add values at any time.
+x-operator: institution
+terms:
+  space_type:
+  - Café
+  - General Seating Area
+  - IT Cluster
+  - Library
+  - Outdoor Seating Area
+  noise:
+  - Animated discussion
+  - Background chatter
+  - Strictly silent
+  - Whispers
+  access:
+  - Anyone (public)
+  - University Staff and Students
+  - 'University Staff and Students '
+  facilities:
+  - accessible_toilets
+  - adjustable_furniture
+  - baby_changing
+  - bike_racks
+  - blue_badge_parking
+  - bookable
+  - break
+  - computers
+  - daylight
+  - food_drink
+  - free_wifi
+  - gender_neutral_toilets
+  - individual_study_space
+  - induction_loops
+  - laptops_allowed
+  - large_desks
+  - light
+  - outdoor_seating
+  - prayer_room
+  - printers_copiers
+  - projector
+  - refreshments
+  - signal
+  - sockets
+  - toilets
+  - views
+  - wheelchair_accessible
+  - whiteboards
+  atmosphere:
+  - cosy
+  - disciplined
+  - friendly
+  - historic
+  - inspiring
+  - inspiring'
+  - modern
+  - relaxed
+  - social
+  work:
+  - close
+  - friends
+  - group
+  - in_a_library
+  - private
+  floor:
+  - 1st and 2nd floors
+  - 1st floor
+  - 2nd Floor
+  - 7th floor
+  - Basement
+  - First Floor
+  - First floor
+  - Ground floor
+  - Ground floor and mezzanine
+  - Level 10
+  - Level 11
+  - Level 11 and 12
+  - Level 13
+  - Level 6
+  - Level 7
+  - Level 8
+  - Level 9
+  - Level 9 (ground floor)
+  - Second and Third floors
+  - Second floor

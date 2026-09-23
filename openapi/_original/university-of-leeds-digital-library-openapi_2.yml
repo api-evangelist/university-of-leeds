@@ -1,0 +1,141 @@
+# x-archived-from: university-of-leeds-digital-library-openapi.yml
+# x-archived-on: 2026-09-16
+openapi: 3.1.0
+info:
+  title: Leeds Digital Library — OAI-PMH and OpenSearch
+  version: '2.0'
+  summary: Metadata harvesting and search interfaces for the University of Leeds Digital Library.
+  description: >-
+    The Leeds Digital Library (digital.library.leeds.ac.uk, 129.11.78.169 — University of Leeds
+    address space) is a second, separate EPrints deployment holding digitised Special Collections
+    material: Bronte, incunabula, Liddle Collection, cookery, history of science, the Leeds
+    Permanent Library and others. It exposes two machine-readable surfaces the university operates
+    itself: an OAI-PMH 2.0 endpoint and an OpenSearch 1.1 description document with Atom and BibTeX
+    result formats.
+
+    Verified live on 2026-08-30: `verb=Identify` returns repositoryName "Digital Library", baseURL
+    http://digital.library.leeds.ac.uk/cgi/oai2, adminEmail j.beaman@leeds.ac.uk, earliest datestamp
+    2012-09-04. The OpenSearch description returns Atom and BibTeX URL templates over
+    /cgi/search/simple.
+
+    NEGATIVE FINDING, recorded so it is not re-claimed: /cgi/iiif/manifest/{id} answers HTTP 200 with
+    a ZERO-BYTE body for every identifier tested (1, 2, 100, 500, 1000, 1705). It is a soft-200, not
+    a working IIIF Presentation surface, and it is deliberately NOT described here. The University of
+    Leeds' verified IIIF surface is the Library floor plans Image API, described separately.
+
+    This OpenAPI description was DERIVED by API Evangelist from probed responses.
+  contact:
+    name: University of Leeds Libraries — Digital Library
+    email: j.beaman@leeds.ac.uk
+    url: https://digital.library.leeds.ac.uk/
+  x-operator: institution
+  x-operator-evidence: >-
+    Host digital.library.leeds.ac.uk is under leeds.ac.uk and resolves to 129.11.78.169, University
+    of Leeds address space. OAI adminEmail and OpenSearch Contact are both @leeds.ac.uk. Self-hosted
+    EPrints, not a vendor tenancy.
+  x-provenance:
+    generated: '2026-08-30'
+    method: derived
+    source: >-
+      Derived from live responses probed 2026-08-30 —
+      https://digital.library.leeds.ac.uk/cgi/oai2?verb=Identify (HTTP 200) and
+      https://digital.library.leeds.ac.uk/cgi/opensearchdescription (HTTP 200, OpenSearch 1.1).
+      Soft-200 on /cgi/iiif/manifest/{id} confirmed across six identifiers and excluded.
+servers:
+  - url: https://digital.library.leeds.ac.uk/cgi
+    description: Production (institution-operated EPrints)
+tags:
+  - name: OAI-PMH
+    description: Open Archives Initiative Protocol for Metadata Harvesting 2.0.
+  - name: OpenSearch
+    description: OpenSearch 1.1 description and search result feeds.
+paths:
+  /oai2:
+    get:
+      operationId: digitalLibraryOaiRequest
+      summary: Issue an OAI-PMH 2.0 request against the Digital Library
+      tags: [OAI-PMH]
+      security: []
+      parameters:
+        - name: verb
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Identify, ListMetadataFormats, ListSets, ListIdentifiers, ListRecords, GetRecord]
+        - name: metadataPrefix
+          in: query
+          required: false
+          schema: { type: string, examples: ['oai_dc'] }
+        - name: identifier
+          in: query
+          required: false
+          schema: { type: string, examples: ['oai:digital.library.leeds.ac.uk:1705'] }
+        - name: set
+          in: query
+          required: false
+          schema: { type: string }
+        - name: from
+          in: query
+          required: false
+          schema: { type: string, format: date-time }
+        - name: until
+          in: query
+          required: false
+          schema: { type: string, format: date-time }
+        - name: resumptionToken
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: OAI-PMH XML response, or an `<error>` element at HTTP 200.
+          content:
+            text/xml:
+              schema: { type: string, contentMediaType: text/xml }
+  /opensearchdescription:
+    get:
+      operationId: getOpenSearchDescription
+      summary: Retrieve the OpenSearch 1.1 description document
+      description: >-
+        Returns an OpenSearchDescription naming the search URL templates the repository supports —
+        Atom (application/atom+xml) and BibTeX (text/plain) over /cgi/search/simple.
+      tags: [OpenSearch]
+      security: []
+      responses:
+        '200':
+          description: OpenSearch 1.1 description document.
+          content:
+            application/opensearchdescription+xml:
+              schema: { type: string, contentMediaType: application/xml }
+  /search/simple:
+    get:
+      operationId: simpleSearch
+      summary: Search the Digital Library and receive machine-readable results
+      description: >-
+        Search endpoint named by the OpenSearch description. `output=Atom` returns a syndication
+        feed; `output=BibTeX` returns citations as text.
+      tags: [OpenSearch]
+      security: []
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema: { type: string }
+        - name: search_offset
+          in: query
+          required: false
+          schema: { type: integer, default: 0 }
+        - name: output
+          in: query
+          required: false
+          schema: { type: string, enum: [Atom, BibTeX, RSS2] }
+      responses:
+        '200':
+          description: Search results in the requested serialisation.
+          content:
+            application/atom+xml:
+              schema: { type: string, contentMediaType: application/atom+xml }
+            text/plain:
+              schema: { type: string }
+security: []

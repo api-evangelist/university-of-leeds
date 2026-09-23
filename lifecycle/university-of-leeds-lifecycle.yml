@@ -1,0 +1,47 @@
+lifecycle: '0.1'
+provider: university-of-leeds
+generated: '2026-08-30'
+method: probed
+x-operator: institution
+summary: >-
+  The University of Leeds publishes no versioning policy, no deprecation policy, no changelog and no
+  status page for any of its machine-readable surfaces. Two of the four are protocol-versioned by
+  the standard they implement rather than by the institution; the other two are unversioned static
+  files that can change shape without notice.
+surfaces:
+  - surface: Research Data Leeds Repository OAI-PMH
+    versioning: 'Protocol-versioned. OAI-PMH 2.0, declared as <protocolVersion>2.0</protocolVersion>.'
+    stability: >-
+      High by construction — the verb set and error vocabulary are fixed by the OAI-PMH
+      specification, so a harvester written today will keep working. Repository content changes;
+      the interface does not.
+    deletion_policy: 'deletedRecord = persistent (declared in Identify) — deleted records remain harvestable as tombstones.'
+    earliest_datestamp: '2023-07-27T22:35:03Z'
+    evidence: { url: 'https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=Identify', status: 200 }
+  - surface: Leeds Digital Library OAI-PMH / OpenSearch
+    versioning: 'Protocol-versioned. OAI-PMH 2.0 and OpenSearch 1.1.'
+    earliest_datestamp: '2012-09-04T17:15:58Z'
+    stability: >-
+      Same protocol guarantee. Note the Identify response still declares an http:// baseURL while the
+      host serves https — a small inconsistency in the repository's self-description.
+    evidence: { url: 'https://digital.library.leeds.ac.uk/cgi/oai2?verb=Identify', status: 200 }
+  - surface: Spacefinder space data
+    versioning: 'NONE. Unversioned static JSON at a fixed path; no version field in the payload, no dated snapshot, no changelog.'
+    stability: >-
+      Reversibility risk. The shape can change at any commit to
+      github.com/uol-library/spacefinder.leeds.ac.uk with no notice to consumers. The public git
+      history is the only change record, and it is the application's history, not a data changelog.
+      One shape hazard is already present: `location` is a GeoJSON Point serialised as a string.
+    evidence: { url: 'https://spacefinder.leeds.ac.uk/spaces.json', status: 200 }
+  - surface: Library floor plans IIIF Image API
+    versioning: 'Protocol-versioned. IIIF Image API, compliance level 0.'
+    stability: >-
+      Identifiers (brotherton-m1 and siblings) are stable and enumerated in the service data, but
+      only pre-generated derivatives resolve, so a consumer must read info.json rather than
+      constructing requests.
+    evidence: { url: 'https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json', status: 200 }
+absent:
+  status_page: 'None found on any leeds.ac.uk host.'
+  changelog: 'None. GitHub commit history for the two Libraries applications is the nearest equivalent.'
+  deprecation_policy: 'None published.'
+  sunset_headers: 'Not present on any probed response.'

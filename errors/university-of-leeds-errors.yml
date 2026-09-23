@@ -1,0 +1,61 @@
+errors: '0.1'
+provider: university-of-leeds
+generated: '2026-08-30'
+method: derived
+evidence_method: probed
+probed: '2026-08-30'
+x-operator: institution
+source: >-
+  Error behaviour observed by issuing deliberately malformed requests against each surface on
+  2026-08-30.
+summary: >-
+  The most consequential fact about error handling here is that the OAI-PMH surfaces return protocol
+  errors at HTTP 200. A client that reads status codes alone will treat a badVerb or badArgument as a
+  success. Nothing on any Leeds surface returns a machine-readable problem document (RFC 9457).
+surfaces:
+  - surface: Research Data Leeds Repository OAI-PMH
+    baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
+    transport_status_on_error: 200
+    body_format: 'OAI-PMH XML with <error code="..."> element'
+    evidence:
+      url: https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=Bogus
+      status: 200
+      observed: '<error code="badVerb">The value of the verb argument is not a legal OAI-PMH verb</error> and <error code="badArgument">Bad verb argument</error>'
+    codes:
+      - { code: badVerb,              meaning: 'verb is missing, repeated, or not a legal OAI-PMH verb' }
+      - { code: badArgument,          meaning: 'illegal argument, missing required argument, or repeated argument' }
+      - { code: cannotDisseminateFormat, meaning: 'metadataPrefix not supported by the item or repository' }
+      - { code: idDoesNotExist,       meaning: 'identifier unknown or illegal in this repository' }
+      - { code: noRecordsMatch,       meaning: 'the combination of from/until/set/metadataPrefix results in an empty list' }
+      - { code: noSetHierarchy,       meaning: 'the repository does not support sets' }
+      - { code: badResumptionToken,   meaning: 'resumptionToken is invalid or expired' }
+    note: >-
+      Codes are the OAI-PMH 2.0 specification's own vocabulary; badVerb and badArgument were observed
+      directly on this host, the remainder are the protocol's defined set for this endpoint type.
+  - surface: Leeds Digital Library OAI-PMH
+    baseURL: https://digital.library.leeds.ac.uk/cgi/oai2
+    transport_status_on_error: 200
+    body_format: 'OAI-PMH XML <error> element (same EPrints behaviour)'
+  - surface: Leeds Digital Library IIIF manifest endpoint
+    baseURL: https://digital.library.leeds.ac.uk/cgi/iiif/manifest/
+    transport_status_on_error: 200
+    body_format: 'ZERO-BYTE body'
+    evidence:
+      url: https://digital.library.leeds.ac.uk/cgi/iiif/manifest/1705
+      status: 200
+      observed: 'Content-Length: 0 for identifiers 1, 2, 100, 500, 1000 and 1705'
+    note: >-
+      A soft-200. This endpoint answers 200 for every identifier and returns nothing. It is recorded
+      here as a broken surface and is deliberately excluded from the OpenAPI descriptions.
+  - surface: Spacefinder data
+    baseURL: https://spacefinder.leeds.ac.uk
+    transport_status_on_error: 404
+    body_format: 'GitHub Pages HTML 404 page'
+    note: Static JSON on GitHub Pages; there is no application error layer.
+  - surface: Library floor plans IIIF Image API
+    baseURL: https://floorplans.library.leeds.ac.uk/assets/iiif
+    transport_status_on_error: 404
+    body_format: HTML
+    note: >-
+      Level 0 service — any region/size/rotation combination not pre-generated returns 404 rather
+      than a IIIF error document.

@@ -1,0 +1,80 @@
+openapi: 3.2.0
+info:
+  title: Leeds Digital Library — OAI-PMH Open Search API
+  version: '2.0'
+  summary: Metadata harvesting and search interfaces for the University of Leeds Digital Library.
+  description: 'The Leeds Digital Library (digital.library.leeds.ac.uk, 129.11.78.169 — University of Leeds address space) is a second, separate EPrints deployment holding digitised Special Collections material: Bronte, incunabula, Liddle Collection, cookery, history of science, the Leeds Permanent Library and others.'
+  contact:
+    name: University of Leeds Libraries — Digital Library
+    email: j.beaman@leeds.ac.uk
+    url: https://digital.library.leeds.ac.uk/
+  x-operator: institution
+  x-operator-evidence: Host digital.library.leeds.ac.uk is under leeds.ac.uk and resolves to 129.11.78.169, University of Leeds address space. OAI adminEmail and OpenSearch Contact are both @leeds.ac.uk. Self-hosted EPrints, not a vendor tenancy.
+  x-provenance:
+    generated: '2026-08-30'
+    method: derived
+    source: Derived from live responses probed 2026-08-30 — https://digital.library.leeds.ac.uk/cgi/oai2?verb=Identify (HTTP 200) and https://digital.library.leeds.ac.uk/cgi/opensearchdescription (HTTP 200, OpenSearch 1.1). Soft-200 on /cgi/iiif/manifest/{id} confirmed across six identifiers and excluded.
+servers:
+- url: https://digital.library.leeds.ac.uk/cgi
+  description: Production (institution-operated EPrints)
+security: []
+tags:
+- name: Open Search
+  description: OpenSearch 1.1 description and search result feeds.
+paths:
+  /opensearchdescription:
+    get:
+      operationId: getOpenSearchDescription
+      summary: Retrieve the OpenSearch 1.1 description document
+      description: Returns an OpenSearchDescription naming the search URL templates the repository supports — Atom (application/atom+xml) and BibTeX (text/plain) over /cgi/search/simple.
+      tags:
+      - Open Search
+      security: []
+      responses:
+        '200':
+          description: OpenSearch 1.1 description document.
+          content:
+            application/opensearchdescription+xml:
+              schema:
+                type: string
+                contentMediaType: application/xml
+  /search/simple:
+    get:
+      operationId: simpleSearch
+      summary: Search the Digital Library and receive machine-readable results
+      description: Search endpoint named by the OpenSearch description. `output=Atom` returns a syndication feed; `output=BibTeX` returns citations as text.
+      tags:
+      - Open Search
+      security: []
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: search_offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: output
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - Atom
+          - BibTeX
+          - RSS2
+      responses:
+        '200':
+          description: Search results in the requested serialisation.
+          content:
+            application/atom+xml:
+              schema:
+                type: string
+                contentMediaType: application/atom+xml
+            text/plain:
+              schema:
+                type: string

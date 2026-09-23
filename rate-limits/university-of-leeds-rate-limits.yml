@@ -1,3 +1,8 @@
+generated: '2026-06-03'
+method: generated
+source: >-
+  Written by the API Evangelist enrichment pipeline. The University of Leeds publishes no rate-limit
+  table; no rate-limit header was observed on any surface probed 2026-08-30.
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits

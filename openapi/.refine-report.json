@@ -1,0 +1,41 @@
+{
+  "provider": "university-of-leeds",
+  "sources": [
+    "_original/university-of-leeds-digital-library-openapi.yml",
+    "_original/university-of-leeds-library-floorplans-iiif-openapi.yml",
+    "_original/university-of-leeds-spacefinder-openapi.yml"
+  ],
+  "outputs": [
+    "university-of-leeds-oai-pmh-api-openapi.yml",
+    "university-of-leeds-opensearch-api-openapi.yml",
+    "university-of-leeds-iiif-image-api-openapi.yml",
+    "university-of-leeds-facets-api-openapi.yml",
+    "university-of-leeds-spaces-api-openapi.yml"
+  ],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "5 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "university-of-leeds-digital-library-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "university-of-leeds-library-floorplans-iiif-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "university-of-leeds-spacefinder-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: university-of-leeds-open-search-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 7 total)"
+  ],
+  "skipped": [
+    "_original/university-of-leeds-spacefinder-openapi_2.yml: archived document superseded by a larger archived document",
+    "_original/university-of-leeds-research-data-oai-pmh-openapi_2.yml: archived document superseded by a larger archived document",
+    "_original/university-of-leeds-research-data-oai-pmh-openapi.yml: archived document superseded by a larger archived document",
+    "_original/university-of-leeds-library-floorplans-iiif-openapi_2.yml: archived document superseded by a larger archived document",
+    "_original/university-of-leeds-digital-library-openapi_2.yml: archived document superseded by a larger archived document",
+    "university-of-leeds-facets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "university-of-leeds-iiif-image-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "university-of-leeds-oai-pmh-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "university-of-leeds-open-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "university-of-leeds-spaces-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

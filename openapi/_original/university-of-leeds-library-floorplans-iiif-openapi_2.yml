@@ -1,0 +1,130 @@
+# x-archived-from: university-of-leeds-library-floorplans-iiif-openapi.yml
+# x-archived-on: 2026-09-16
+openapi: 3.1.0
+info:
+  title: University of Leeds Library Floor Plans — IIIF Image API
+  version: '3.0'
+  summary: Static IIIF Image API level 0 service for University of Leeds Library floor plans.
+  description: >-
+    University of Leeds Libraries publish interactive floor plans for the Brotherton, Edward Boyle,
+    Health Sciences and Laidlaw libraries. The underlying images are served as a static
+    IIIF Image API level 0 service from the institution's own host
+    (floorplans.library.leeds.ac.uk resolves to lib-sc-prd.leeds.ac.uk, 129.11.190.52).
+
+    Verified live on 2026-08-30:
+    GET /assets/iiif/original/brotherton-m1/info.json returns HTTP 200 with
+    `"protocol": "http://iiif.io/api/image"`, `"profile": "level0"`, tile size 1024x1024, scale
+    factors [32,16,8,4,2,1] and a full image of 5077x5988. A derivative tile request
+    (/full/159,188/0/default.jpg) returns HTTP 200.
+
+    Level 0 means only the sizes and tiles enumerated in info.json are addressable — arbitrary
+    region/size/rotation requests are not supported. Twenty-four floor plan identifiers exist across
+    four libraries, in `original` and `cropped` variants, enumerated in the service's own
+    _data/iiif.json.
+
+    This is the only IIIF surface at the University of Leeds that this profile could VERIFY. The
+    Special Collections "Cultural Collections IIIF" claim carried in this repository since
+    2026-06-03 named no reachable manifest base URL and could not be confirmed on 2026-08-30; it has
+    been withdrawn rather than restated.
+  contact:
+    name: University of Leeds Libraries
+    url: https://library.leeds.ac.uk/locations
+  x-operator: institution
+  x-operator-evidence: >-
+    Host floorplans.library.leeds.ac.uk is under leeds.ac.uk, CNAMEs to lib-sc-prd.leeds.ac.uk and
+    resolves to 129.11.190.52 (University of Leeds address space). Application source is
+    github.com/uol-library/floorplans.library.leeds.ac.uk.
+  x-provenance:
+    generated: '2026-08-30'
+    method: derived
+    source: >-
+      Derived from live responses probed 2026-08-30 —
+      https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json (HTTP 200,
+      IIIF Image API level0) and .../full/159,188/0/default.jpg (HTTP 200). Identifier list read from
+      https://raw.githubusercontent.com/uol-library/floorplans.library.leeds.ac.uk/main/_data/iiif.json
+  x-standard: IIIF Image API 3.0, compliance level 0
+servers:
+  - url: https://floorplans.library.leeds.ac.uk/assets/iiif
+    description: Production static IIIF Image API (institution-operated)
+tags:
+  - name: IIIF Image
+    description: IIIF Image API level 0 static tile service.
+paths:
+  /{variant}/{identifier}/info.json:
+    get:
+      operationId: getImageInformation
+      summary: Retrieve the IIIF image information document
+      tags: [IIIF Image]
+      security: []
+      parameters:
+        - name: variant
+          in: path
+          required: true
+          schema: { type: string, enum: [original, cropped] }
+        - name: identifier
+          in: path
+          required: true
+          description: 'Floor plan key, e.g. brotherton-m1, brotherton-w3, edward-boyle-10.'
+          schema: { type: string, examples: ['brotherton-m1'] }
+      responses:
+        '200':
+          description: IIIF image information document.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ImageInformation' }
+        '404':
+          description: Unknown variant or identifier.
+  /{variant}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}:
+    get:
+      operationId: getImage
+      summary: Retrieve a pre-generated image derivative
+      description: >-
+        Level 0 service. Only the region/size/rotation/quality/format combinations enumerated in
+        info.json are addressable; anything else returns 404.
+      tags: [IIIF Image]
+      security: []
+      parameters:
+        - { name: variant, in: path, required: true, schema: { type: string, enum: [original, cropped] } }
+        - { name: identifier, in: path, required: true, schema: { type: string } }
+        - { name: region, in: path, required: true, schema: { type: string, examples: ['full'] } }
+        - { name: size, in: path, required: true, schema: { type: string, examples: ['159,188'] } }
+        - { name: rotation, in: path, required: true, schema: { type: string, examples: ['0'] } }
+        - { name: quality, in: path, required: true, schema: { type: string, examples: ['default'] } }
+        - { name: format, in: path, required: true, schema: { type: string, enum: [jpg] } }
+      responses:
+        '200':
+          description: The image derivative.
+          content:
+            image/jpeg:
+              schema: { type: string, format: binary }
+        '404':
+          description: Combination not pre-generated by this level 0 service.
+components:
+  schemas:
+    ImageInformation:
+      type: object
+      description: IIIF Image API information document, as observed 2026-08-30.
+      properties:
+        id: { type: string }
+        protocol: { type: string, const: 'http://iiif.io/api/image' }
+        profile: { type: string, examples: ['level0'] }
+        width: { type: integer }
+        height: { type: integer }
+        sizes:
+          type: array
+          items:
+            type: object
+            properties:
+              width: { type: integer }
+              height: { type: integer }
+        tiles:
+          type: array
+          items:
+            type: object
+            properties:
+              width: { type: integer }
+              height: { type: integer }
+              scaleFactors:
+                type: array
+                items: { type: integer }
+security: []

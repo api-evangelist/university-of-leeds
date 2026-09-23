@@ -1,3 +1,8 @@
+generated: '2026-06-03'
+method: generated
+source: >-
+  Written by the API Evangelist enrichment pipeline from the University of Leeds' public posture.
+  Not published by the institution.
 specification: API Commons Plans
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans

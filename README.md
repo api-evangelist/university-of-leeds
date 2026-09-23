@@ -64,54 +64,110 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-The University of Leeds is a public research university in Leeds, United Kingdom, ranked #60 in the QS World University Rankings 2025 and a member of the Russell Group. This repository catalogs the institution's public developer/API footprint as an [APIs.json](https://apisjson.org) profile for the API Evangelist network. Leeds has no central self-service developer portal; its clearest public, machine-readable surface is the Libraries' research data and digital collections infrastructure.
+The University of Leeds is a public research university in Leeds, United Kingdom, and a member of
+the Russell Group. This repository is an independent [APIs.json](https://apisjson.org) profile of the
+institution's **public, machine-readable footprint**, maintained by API Evangelist and re-profiled
+on **2026-08-30** under the API Evangelist university pipeline.
 
 - APIs.json: https://raw.githubusercontent.com/api-evangelist/university-of-leeds/refs/heads/main/apis.yml
 - Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=university-of-leeds-api-evangelist&utm_content=repo
 
-## Type
+## Who operates what
 
-- Index
-- Consumer
-- 3rd-Party
+A university is a federation of buyers, so the first question about any surface here is not *is
+there a spec* but **who runs the thing the spec describes**. Every entry in `apis.yml` carries an
+`x-operator`.
 
-## Tags
+| Surface | Operator | Why |
+|---|---|---|
+| Research Data Leeds Repository (OAI-PMH) | `institution` | `archive.researchdata.leeds.ac.uk` → `roadmap4.leeds.ac.uk` (129.11.190.31). Self-hosted EPrints. |
+| Leeds Digital Library (OAI-PMH + OpenSearch) | `institution` | `digital.library.leeds.ac.uk` → 129.11.78.169, Leeds address space. Self-hosted EPrints. |
+| Spacefinder campus space data | `institution` | `spacefinder.leeds.ac.uk`; app and data authored by `github.com/uol-library`. |
+| Library floor plans IIIF Image API | `institution` | `floorplans.library.leeds.ac.uk` → `lib-sc-prd.leeds.ac.uk` (129.11.190.52). |
+| Library Search (Ex Libris Alma / Primo) | `tenant` | Runs at `leeds.primo.exlibrisgroup.com` with view id `44LEE_INST`. Vendor host, vendor contract, vendor keys. |
+| White Rose Research Online (OAI-PMH) | `tenant` | `eprints.whiterose.ac.uk` — a three-university consortium platform shared with Sheffield and York. |
 
-Education, Higher Education, University, United Kingdom, Research Data, Libraries, OAI-PMH, IIIF
+No vendor specification is stored under this slug, and none should be. The two tenant entries are
+recorded as **relationships**, because a tenancy is a real institutional fact and one of the few
+programmable surfaces most universities have — but the engineering is not Leeds'.
 
-## APIs
+## What is actually callable
 
-- **Research Data Leeds Repository (OAI-PMH)** — EPrints 3 institutional research data repository; live OAI-PMH 2.0 endpoint for metadata harvesting. Docs: https://archive.researchdata.leeds.ac.uk/ — Base: https://archive.researchdata.leeds.ac.uk/cgi/oai2
-- **Cultural Collections IIIF** — Libraries' Cultural Collections IIIF-enabled via a Digirati-built digital library (IIIF Image API + OCFL); manifests discovered per catalogue record. Docs: https://library.leeds.ac.uk/info/1500/special_collections
-- **Library Search (Ex Libris Alma / Primo)** — Discovery and resource management on Alma/Primo; programmatic access only via vendor-gated Alma/Primo APIs. Docs: https://library.leeds.ac.uk/info/1100/search-resources
+All four institution-operated surfaces are anonymous, keyless and read-only. Verified live on
+2026-08-30:
 
-## Plans
+- **`https://archive.researchdata.leeds.ac.uk/cgi/oai2`** — OAI-PMH 2.0. Six metadata prefixes
+  (`oai_dc`, `didl`, `mets`, `oai_bibl`, `rdf`, `uketd_dc`), earliest datestamp 2023-07-27,
+  `deletedRecord: persistent`. Datasets carry DataCite DOIs under the university's own `10.5518`
+  prefix.
+- **`https://digital.library.leeds.ac.uk/cgi/oai2`** — a second, separate EPrints instance holding
+  digitised Special Collections, plus an **OpenSearch 1.1** description offering Atom and BibTeX.
+- **`https://spacefinder.leeds.ac.uk/spaces.json`** — 68 campus study spaces with geolocation,
+  per-weekday opening hours, facilities, noise, atmosphere and accessibility. 137,649 bytes, no key.
+- **`https://floorplans.library.leeds.ac.uk/assets/iiif/…/info.json`** — IIIF Image API **level 0**,
+  1024×1024 tiles, four libraries in `original` and `cropped` variants.
 
-See [plans/university-of-leeds-plans-pricing.yml](plans/university-of-leeds-plans-pricing.yml).
+**The four OpenAPI documents in `openapi/` were derived by API Evangelist from those probes.** The
+University of Leeds publishes no OpenAPI, no developer portal, no API gateway, no status page and no
+changelog. `https://www.leeds.ac.uk/llms.txt` returns 404.
 
-## Rate Limits
+## What changed in the 2026-08-30 re-profile
 
-See [rate-limits/university-of-leeds-rate-limits.yml](rate-limits/university-of-leeds-rate-limits.yml).
+- **Ex Libris Alma/Primo re-labelled `tenant`.** It previously carried a `library.leeds.ac.uk`
+  `humanURL`, which made a vendor tenancy read as institution-owned to any host-based verdict.
+- **"Cultural Collections IIIF" withdrawn.** Its own 2026-06-03 description admitted no confirmed
+  manifest base URL. The EPrints manifest endpoint at
+  `digital.library.leeds.ac.uk/cgi/iiif/manifest/{id}` is a **soft-200** — HTTP 200 with a
+  **zero-byte body** for identifiers 1, 2, 100, 500, 1000 and 1705. Replaced with the library floor
+  plans IIIF service, which was verified.
+- **The `data.leeds.ac.uk` "third-party data consultancy" note was wrong** and is removed. The host
+  is under the university's own registrable domain, resolves to WP Engine, and is Cloudflare
+  bot-challenged (HTTP 403 to curl and to a browser user-agent alike). It is `bot_blocked` and
+  unread — not third-party.
+- **Three new institution-operated surfaces added**: the Digital Library, Spacefinder, and the floor
+  plans IIIF service. None of them were in the June profile.
+- **Two negative findings recorded** in `conformance/` so they are not re-claimed from prose: no
+  publicly retrievable Shibboleth/SAML metadata exists under any `leeds.ac.uk` host
+  (`idp.leeds.ac.uk` redirects to a ServiceNow catalogue item), and ORCID is documented for
+  researchers but emitted in no machine-readable surface.
 
-## FinOps
+## Domain standards (Kin Score `education` regime)
 
-See [finops/university-of-leeds-finops.yml](finops/university-of-leeds-finops.yml).
+Read from the contract and the wire, never from a claim on a page. See
+[conformance/university-of-leeds-conformance.yml](conformance/university-of-leeds-conformance.yml).
 
-## Timestamps
+| Standard | Conformant | Evidence |
+|---|---|---|
+| `oai-pmh` | **yes** | two independent institution-operated 2.0 endpoints |
+| `datacite` | **yes** | DOI `10.5518/1362` emitted in harvestable `oai_dc` metadata |
+| IIIF Image API (non-regime) | **yes** | `"profile": "level0"` on the institution's own host |
+| OpenSearch 1.1 (non-regime) | **yes** | description document at `digital.library.leeds.ac.uk` |
+| `orcid` | no | documented for researchers, absent from every machine-readable surface |
+| `shibboleth` / `saml` | no | no retrievable entity metadata under any `leeds.ac.uk` host |
+| `scim`, `lti`, `oneroster`, `ed-fi`, `caliper`, `qti`, `crossref` | no | no surface found |
 
-- Created: 2026-06-03
-- Modified: 2026-06-03
+## Artifacts
 
-## Common Properties
-
-- Website: https://www.leeds.ac.uk/
-- GitHub: https://github.com/uol-library
-- LinkedIn: https://www.linkedin.com/school/university-of-leeds/
-- Review: [review.yml](review.yml)
+| Directory | Contents | Provenance |
+|---|---|---|
+| `openapi/` (+ `_original/`) | four contracts, one per institution surface | `derived` from probes |
+| `json-schema/` | Spacefinder space object | `derived` from the live response |
+| `vocabulary/` | every controlled value present in the live Spacefinder data | `derived` |
+| `examples/` | verbatim HTTP 200 response bodies | `harvested` |
+| `conformance/` | education-regime standards, positive **and** negative | `derived` from probes |
+| `authentication/`, `scopes/` | anonymous everywhere; no authorization boundary to scope | `derived` from probes |
+| `errors/` | OAI errors arrive at HTTP 200; the soft-200 IIIF endpoint | `derived` from probes |
+| `lifecycle/` | no versioning, no changelog, no status page | `derived` from probes |
+| `rules/` | consumption rules for integrators | `derived` |
 
 ## Notes
 
-All endpoints were probed on 2026-06-03 and no endpoints were fabricated. The OAI-PMH endpoint was verified live (HTTP 200 on `verb=Identify` and `verb=ListMetadataFormats`). IIIF manifests exist but are discovered per catalogue record — no published developer reference or fixed manifest base URL was confirmed. Alma/Primo APIs are vendor-provided and require institution-issued keys; Leeds publishes no public developer docs for them. `data.leeds.ac.uk` is a third-party data consultancy (not the university's open-data portal) and returned HTTP 403 to automated requests; the legacy `id.leeds.ac.uk` linked-open-data host now 301-redirects away with no live API confirmed.
+Nothing here was fabricated and nothing is attributed to the University of Leeds that the University
+of Leeds does not operate. `arc.leeds.ac.uk` (Advanced Research Computing, the Aire HPC service),
+`data.leeds.ac.uk` and `generative-ai.leeds.ac.uk` are all live but Cloudflare bot-challenged; they
+are recorded as pointers, and their contents were not read. The module and programme catalogue at
+`catalogue.leeds.ac.uk` is institution-operated but HTML-only — it is a `CourseCatalog` pointer, not
+an API.
 
 ## Maintainers
 

@@ -1,0 +1,43 @@
+authentication: '0.1'
+provider: university-of-leeds
+generated: '2026-08-30'
+method: derived
+evidence_method: probed
+probed: '2026-08-30'
+source: >-
+  Established by issuing unauthenticated requests to each institution-operated surface on 2026-08-30
+  and observing that all returned complete payloads at HTTP 200 with no credential of any kind.
+x-operator: institution
+summary: >-
+  Every institution-operated surface the University of Leeds exposes is fully anonymous. There is no
+  registration, no key issuance, no OAuth flow, no rate-limit header and no developer account. This
+  is a genuine open-access posture, not an undocumented one — but it also means there is no
+  onboarding path, no way to identify a caller, and no contact route for a consumer with a problem.
+surfaces:
+  - surface: Spacefinder space data
+    baseURL: https://spacefinder.leeds.ac.uk/spaces.json
+    scheme: none
+    verified: '2026-08-30'
+    evidence: 'GET with no headers returned HTTP 200 and 137,649 bytes of JSON.'
+  - surface: Research Data Leeds Repository OAI-PMH
+    baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
+    scheme: none
+    verified: '2026-08-30'
+    evidence: 'verb=Identify and verb=ListIdentifiers both returned HTTP 200 unauthenticated.'
+  - surface: Leeds Digital Library OAI-PMH / OpenSearch
+    baseURL: https://digital.library.leeds.ac.uk/cgi/oai2
+    scheme: none
+    verified: '2026-08-30'
+    evidence: 'verb=Identify returned HTTP 200 unauthenticated.'
+  - surface: Library floor plans IIIF Image API
+    baseURL: https://floorplans.library.leeds.ac.uk/assets/iiif
+    scheme: none
+    verified: '2026-08-30'
+    evidence: 'info.json and a derivative tile both returned HTTP 200 unauthenticated.'
+not_applicable:
+  - surface: Library Search (Ex Libris Alma / Primo)
+    x-operator: tenant
+    detail: >-
+      Programmatic access runs through Ex Libris' Alma and Primo REST APIs and requires an
+      institution-issued key obtained from Ex Libris, not from Leeds. The authentication model is
+      the vendor's, and it is documented on the vendor's developer network — not here.

@@ -1,0 +1,74 @@
+openapi: 3.2.0
+info:
+  title: University of Leeds Spacefinder Data Facets API
+  version: 1.0.0
+  summary: Machine-readable study-space and campus-space data published by University of Leeds Libraries.
+  description: Spacefinder is the University of Leeds Libraries wayfinding application.
+  contact:
+    name: University of Leeds Libraries
+    url: https://library.leeds.ac.uk/
+  license:
+    name: See repository licence
+    url: https://github.com/uol-library/spacefinder.leeds.ac.uk/blob/main/LICENSE
+  x-operator: institution
+  x-operator-evidence: Host spacefinder.leeds.ac.uk is under the University of Leeds registrable domain leeds.ac.uk. Application and data authored by github.com/uol-library (University of Leeds Libraries).
+  x-provenance:
+    generated: '2026-08-30'
+    method: derived
+    source: Derived from live responses to GET https://spacefinder.leeds.ac.uk/spaces.json (HTTP 200, application/json, 137,649 bytes, 68 objects) and GET https://spacefinder.leeds.ac.uk/filters.json (HTTP 200, 6 facet groups), probed 2026-08-30.
+servers:
+- url: https://spacefinder.leeds.ac.uk
+  description: Production (institution-operated, GitHub Pages hosted)
+security: []
+tags:
+- name: Facets
+  description: Filtering vocabulary over the space dataset.
+paths:
+  /filters.json:
+    get:
+      operationId: listFilters
+      summary: List the facet groups and options used to filter spaces
+      tags:
+      - Facets
+      security: []
+      responses:
+        '200':
+          description: The facet vocabulary.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FilterGroup'
+        '404':
+          description: Not found.
+components:
+  schemas:
+    FilterGroup:
+      type: object
+      required:
+      - key
+      - label
+      - options
+      properties:
+        key:
+          type: string
+        label:
+          type: string
+        message:
+          type: string
+        exclusive:
+          type: boolean
+        additive:
+          type: boolean
+        open:
+          type: boolean
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              label:
+                type: string

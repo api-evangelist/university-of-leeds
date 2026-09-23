@@ -1,3 +1,7 @@
+generated: '2026-06-03'
+method: generated
+source: >-
+  Written by the API Evangelist enrichment pipeline. Not published by the institution.
 specification: FinOps Framework
 specificationVersion: '1.0'
 schema: https://www.finops.org/framework/

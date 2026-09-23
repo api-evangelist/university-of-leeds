@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  method: harvested
+  generated: '2026-08-30'
+  source: verbatim HTTP 200 response body from https://digital.library.leeds.ac.uk/cgi/oai2?verb=Identify
+  x-operator: institution
+  Captured unmodified by API Evangelist. The bytes below are the
+  University of Leeds' own; the comment is ours.
+-->
+<?xml-stylesheet type='text/xsl' href='/oai2.xsl' ?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2026-08-30T21:09:39Z</responseDate>
+  <request verb="Identify">https://digital.library.leeds.ac.uk/cgi/oai2</request>
+  <Identify>
+    <repositoryName>Digital Library</repositoryName>
+    <baseURL>http://digital.library.leeds.ac.uk/cgi/oai2</baseURL>
+    <protocolVersion>2.0</protocolVersion>
+    <adminEmail>j.beaman@leeds.ac.uk</adminEmail>
+    <earliestDatestamp>2012-09-04T17:15:58Z</earliestDatestamp>
+    <deletedRecord>persistent</deletedRecord>
+    <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+    <description>
+      <oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai-identifier http://www.openarchives.org/OAI/2.0/oai-identifier.xsd">
+        <scheme>oai</scheme>
+        <repositoryIdentifier>digital.library.leeds.ac.uk</repositoryIdentifier>
+        <delimiter>:</delimiter>
+        <sampleIdentifier>oai:digital.library.leeds.ac.uk:1</sampleIdentifier>
+      </oai-identifier>
+    </description>
+    <description>
+      <eprints xmlns="http://www.openarchives.org/OAI/1.1/eprints" xsi:schemaLocation="http://www.openarchives.org/OAI/1.1/eprints http://www.openarchives.org/OAI/1.1/eprints.xsd">
+        <content>
+          <URL>http://digital.library.leeds.ac.uk/policies.html</URL>
+        </content>
+        <metadataPolicy>
+          <text>1. Anyone may access the metadata free of charge.
+2. The metadata may be re-used in any medium without prior permission for not-for-profit purposes provided:
+   (a) the OAI Identifier or a link to the original metadata record are given
+   (b) the repository is mentioned
+3. The metadata must not be re-used in any medium for commercial purposes without formal permission.
+</text>
+        </metadataPolicy>
+        <dataPolicy>
+          <text>1. Anyone may access full items free of charge.
+2. All full items are individually tagged with differing rights permissions and conditions.
+</text>
+        </dataPolicy>
+        <submissionPolicy>
+          <text>1. No submission-data policy defined. 
+</text>
+        </submissionPolicy>
+        <comment>This system is running eprints server software (EPrints 3.3.15) developed at the University of Southampton. For more information see http://www.eprints.org/</comment>
+      </eprints>
+    </description>
+  </Identify>
+</OAI-PMH>

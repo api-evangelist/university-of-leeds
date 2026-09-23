@@ -1,0 +1,54 @@
+rules: '0.1'
+provider: university-of-leeds
+generated: '2026-08-30'
+method: derived
+x-operator: institution
+source: >-
+  Consumption rules derived by API Evangelist from behaviour actually observed on 2026-08-30. These
+  are guidance for a client integrating with these surfaces; they are not published by the
+  University of Leeds.
+rules:
+  - id: oai-errors-arrive-at-200
+    applies_to: [ 'archive.researchdata.leeds.ac.uk/cgi/oai2', 'digital.library.leeds.ac.uk/cgi/oai2' ]
+    severity: high
+    rule: >-
+      Never treat HTTP 200 as success on the OAI-PMH endpoints. Parse the response and check for an
+      <error code="..."> element before consuming the payload. Verified: ?verb=Bogus returns 200
+      with badVerb.
+  - id: spacefinder-location-is-a-string
+    applies_to: [ 'spacefinder.leeds.ac.uk/spaces.json' ]
+    severity: medium
+    rule: >-
+      The `location` field holds a GeoJSON Point encoded as a JSON string, not a nested object.
+      Deserialise it a second time, or use the separate `lat`/`lng` numeric fields instead.
+  - id: spacefinder-has-no-version
+    applies_to: [ 'spacefinder.leeds.ac.uk/spaces.json' ]
+    severity: medium
+    rule: >-
+      There is no version field, no ETag-based contract and no changelog. Pin nothing; validate every
+      fetch against json-schema/university-of-leeds-spacefinder-space.json and fail loudly on drift.
+  - id: iiif-is-level-0
+    applies_to: [ 'floorplans.library.leeds.ac.uk/assets/iiif' ]
+    severity: medium
+    rule: >-
+      Do not construct arbitrary IIIF region/size requests. Only combinations enumerated in the
+      image's info.json resolve; everything else is a 404.
+  - id: do-not-use-the-digital-library-iiif-manifest
+    applies_to: [ 'digital.library.leeds.ac.uk/cgi/iiif/manifest' ]
+    severity: high
+    rule: >-
+      This endpoint returns HTTP 200 with a zero-byte body for every identifier tested. It is a
+      soft-200 and must not be integrated against.
+  - id: primo-is-not-a-leeds-contract
+    applies_to: [ 'leeds.primo.exlibrisgroup.com' ]
+    severity: high
+    rule: >-
+      Library discovery is an Ex Libris tenancy (vid=44LEE_INST). Alma/Primo API keys are issued by
+      Ex Libris, the contract is Ex Libris', and the terms are Ex Libris'. Do not attribute that
+      interface to the University of Leeds.
+  - id: hex-encoded-oai-setspecs
+    applies_to: [ 'archive.researchdata.leeds.ac.uk/cgi/oai2' ]
+    severity: low
+    rule: >-
+      setSpec values are hex-encoded EPrints field expressions (e.g. 7374617475733D707562 decodes to
+      status=pub). Discover them with verb=ListSets rather than constructing them.

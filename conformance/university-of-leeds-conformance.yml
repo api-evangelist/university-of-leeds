@@ -1,0 +1,133 @@
+conformance: '0.1'
+provider: university-of-leeds
+generated: '2026-08-30'
+method: derived
+evidence_method: probed
+probed: '2026-08-30'
+source: >-
+  Every entry below was probed live on 2026-08-30 against the University of Leeds' own hosts. Entries
+  marked `conformant: false` are recorded as NEGATIVE findings so they are not re-claimed from prose.
+  Conformance is read from the contract and the wire, never from a claim on a web page.
+regime: education
+note: >-
+  Targets are the Kin Score `education` regime standards[] — scim, lti, oneroster, ed-fi, caliper,
+  qti, oai-pmh, shibboleth, saml, orcid, datacite, crossref — plus the non-regime standards this
+  institution actually implements (IIIF, OpenSearch).
+
+standards:
+  - standard: oai-pmh
+    conformant: true
+    version: '2.0'
+    x-operator: institution
+    evidence:
+      - url: https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=Identify
+        status: 200
+        location: 'OAI-PMH/Identify/protocolVersion = 2.0; repositoryName = "Research Data Leeds Repository"'
+      - url: https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=ListMetadataFormats
+        status: 200
+        location: 'six metadataPrefix values: oai_dc, didl, mets, oai_bibl, rdf, uketd_dc'
+      - url: https://digital.library.leeds.ac.uk/cgi/oai2?verb=Identify
+        status: 200
+        location: 'OAI-PMH/Identify/repositoryName = "Digital Library"; adminEmail j.beaman@leeds.ac.uk'
+    contract: openapi/university-of-leeds-research-data-oai-pmh-openapi.yml
+    detail: >-
+      TWO independent institution-operated OAI-PMH 2.0 endpoints, both on leeds.ac.uk hosts running
+      self-hosted EPrints. The strongest domain-standard conformance the University of Leeds holds.
+
+  - standard: datacite
+    conformant: true
+    x-operator: institution
+    evidence:
+      - url: 'https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:archive.researchdata.leeds.ac.uk:1139'
+        status: 200
+        location: 'dc:identifier carries https://doi.org/10.5518/1362 — DataCite DOI prefix 10.5518, registered to the University of Leeds; dc:publisher = "University of Leeds"'
+    detail: >-
+      Research datasets are assigned DataCite DOIs under the university's own 10.5518 prefix and the
+      DOI is emitted in the harvestable metadata. Conformance is evidenced on the wire, not claimed
+      in prose. The repository does NOT offer a `datacite` metadataPrefix over OAI-PMH.
+
+  - standard: uketd_dc
+    conformant: true
+    x-operator: institution
+    evidence:
+      - url: https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=ListMetadataFormats
+        status: 200
+        location: '<metadataPrefix>uketd_dc</metadataPrefix>'
+      - url: https://github.com/uol-library/uketd_dc
+        status: 200
+        location: 'University of Leeds Libraries maintains the UK Electronic Theses and Dissertations metadata schema implementation'
+    detail: >-
+      Not an `education` regime standard, recorded because Leeds Libraries authors and maintains the
+      UKETD_DC schema implementation rather than merely consuming it.
+
+  - standard: iiif-image-api
+    conformant: true
+    version: '3.0 level 0'
+    x-operator: institution
+    evidence:
+      - url: https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/info.json
+        status: 200
+        location: '"protocol": "http://iiif.io/api/image", "profile": "level0", tiles 1024x1024, width 5077'
+      - url: 'https://floorplans.library.leeds.ac.uk/assets/iiif/original/brotherton-m1/full/159,188/0/default.jpg'
+        status: 200
+        location: 'derivative tile served'
+    contract: openapi/university-of-leeds-library-floorplans-iiif-openapi.yml
+    detail: Static level 0 Image API on the institution's own host. Not a regime standard.
+
+  - standard: opensearch
+    conformant: true
+    version: '1.1'
+    x-operator: institution
+    evidence:
+      - url: https://digital.library.leeds.ac.uk/cgi/opensearchdescription
+        status: 200
+        location: '<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"> with Atom and BibTeX Url templates'
+    detail: Not a regime standard. Recorded because it is a real machine-readable discovery surface.
+
+  - standard: orcid
+    conformant: false
+    x-operator: institution
+    evidence:
+      - url: https://library.leeds.ac.uk/info/1406/orcid
+        status: 200
+        location: 'guidance page for researchers; an ORCID advocacy project is described in the Library blog (2026-07-31)'
+    detail: >-
+      NEGATIVE. Leeds runs an active ORCID advocacy programme and documents it for researchers, but
+      no ORCID identifier is emitted in any machine-readable surface this profile could probe — the
+      repository's oai_dc records carry names, not ORCID iDs. Per the pipeline rule, a prose claim is
+      not conformance. Recorded so the page is not mistaken for an implementation.
+
+  - standard: shibboleth
+    conformant: false
+    evidence:
+      - url: https://idp.leeds.ac.uk/idp/shibboleth
+        status: 200
+        location: '301/302 chain resolves to https://it.leeds.ac.uk/it?id=sc_cat_item&sys_id=2d1eeb9d1bd4431094de4043b24bcb59 — a ServiceNow catalogue item, not SAML metadata'
+      - url: https://shibboleth.leeds.ac.uk/idp/shibboleth
+        status: 0
+        location: 'DNS/connection failure'
+      - url: https://leeds.ac.uk/idp/shibboleth
+        status: 404
+        location: 'not present'
+    detail: >-
+      NEGATIVE, and worth stating precisely. The University of Leeds is a UK Access Management
+      Federation member — every UK HEI is — but no publicly retrievable SAML/Shibboleth entity
+      metadata was found under any leeds.ac.uk host on 2026-08-30. The idp.leeds.ac.uk hostname
+      exists but redirects to an IT service catalogue page. Federation metadata may exist only inside
+      the UK federation aggregate, which is not an institution-published surface.
+
+  - standard: saml
+    conformant: false
+    evidence:
+      - url: https://idp.leeds.ac.uk/
+        status: 200
+        location: 'redirects to it.leeds.ac.uk service catalogue; no EntityDescriptor served'
+    detail: NEGATIVE. See `shibboleth` above — same probe, same finding.
+
+  - { standard: scim,      conformant: false, detail: 'NEGATIVE. No SCIM surface found on any leeds.ac.uk host.' }
+  - { standard: lti,       conformant: false, detail: 'NEGATIVE. Leeds runs Blackboard/Minerva as a VLE; no institution-published LTI surface.' }
+  - { standard: oneroster, conformant: false, detail: 'NEGATIVE. Not applicable to a UK HE institution; no surface found.' }
+  - { standard: ed-fi,     conformant: false, detail: 'NEGATIVE. US K-12 standard; not applicable and not found.' }
+  - { standard: caliper,   conformant: false, detail: 'NEGATIVE. No learning-analytics event surface found.' }
+  - { standard: qti,       conformant: false, detail: 'NEGATIVE. No assessment interoperability surface found.' }
+  - { standard: crossref,  conformant: false, detail: 'NEGATIVE. Leeds mints DataCite DOIs for research data (10.5518); no institution-operated Crossref surface found. White Rose Research Online carries publication DOIs but is consortium-operated, not Leeds-operated.' }

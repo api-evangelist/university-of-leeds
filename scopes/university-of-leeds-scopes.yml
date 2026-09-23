@@ -1,0 +1,18 @@
+scopes_version: '0.1'
+provider: university-of-leeds
+generated: '2026-08-30'
+method: derived
+evidence_method: probed
+probed: '2026-08-30'
+x-operator: institution
+source: >-
+  Determined by probing every institution-operated surface unauthenticated on 2026-08-30 and finding
+  no authorization layer to scope.
+scopes: []
+detail: >-
+  NONE, and this is a finding rather than a gap. All four institution-operated surfaces are anonymous
+  read-only (see authentication/). With no credential there is no authorization boundary and
+  therefore no scope vocabulary to publish. Scopes would only become meaningful if Leeds put a key
+  or an OAuth flow in front of these endpoints. The one surface that DOES carry scopes — Ex Libris
+  Alma/Primo — is vendor-operated under a tenancy, and its scope model belongs in the Ex Libris
+  profile, not this one.

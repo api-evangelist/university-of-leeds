@@ -1,0 +1,111 @@
+# x-archived-from: university-of-leeds-research-data-oai-pmh-openapi.yml
+# x-archived-on: 2026-09-16
+openapi: 3.1.0
+info:
+  title: Research Data Leeds Repository — OAI-PMH 2.0
+  version: '2.0'
+  summary: OAI-PMH 2.0 metadata harvesting interface for the University of Leeds institutional research data repository.
+  description: >-
+    The Research Data Leeds Repository is the University of Leeds institutional research data
+    repository, running EPrints 3 on the university's own infrastructure
+    (archive.researchdata.leeds.ac.uk resolves to roadmap4.leeds.ac.uk, 129.11.190.31). It exposes a
+    live, unauthenticated OAI-PMH 2.0 endpoint for harvesting dataset metadata.
+
+    Verified live on 2026-08-30: `verb=Identify` returns repositoryName "Research Data Leeds
+    Repository", protocolVersion 2.0, adminEmail researchdataenquiries@leeds.ac.uk, earliest
+    datestamp 2023-07-27, deletedRecord "persistent", granularity YYYY-MM-DDThh:mm:ssZ.
+    `verb=ListMetadataFormats` returns six prefixes. `verb=ListIdentifiers` returned 100 identifiers
+    in the first page. Records carry DataCite DOIs under the University of Leeds prefix 10.5518.
+
+    EPrints is open-source repository software the institution runs itself; the deployment, the
+    host, the data and the DOI prefix are the University of Leeds'. This is NOT a hosted vendor
+    tenancy. This OpenAPI description was DERIVED by API Evangelist from probed responses — the
+    university publishes no OpenAPI for it.
+  contact:
+    name: Research Data Leeds Repository
+    email: researchdataenquiries@leeds.ac.uk
+    url: https://archive.researchdata.leeds.ac.uk/
+  x-operator: institution
+  x-operator-evidence: >-
+    Host archive.researchdata.leeds.ac.uk is under leeds.ac.uk and resolves to Leeds-operated
+    infrastructure (roadmap4.leeds.ac.uk / 129.11.190.31). OAI Identify adminEmail is @leeds.ac.uk.
+    Software is EPrints (open source), self-hosted — not a vendor-hosted tenancy.
+  x-provenance:
+    generated: '2026-08-30'
+    method: derived
+    source: >-
+      Derived from live OAI-PMH responses probed 2026-08-30 —
+      https://archive.researchdata.leeds.ac.uk/cgi/oai2?verb=Identify (HTTP 200),
+      ?verb=ListMetadataFormats (HTTP 200), ?verb=ListSets (HTTP 200),
+      ?verb=ListIdentifiers&metadataPrefix=oai_dc (HTTP 200, 100 identifiers),
+      ?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:archive.researchdata.leeds.ac.uk:1139
+      (HTTP 200), ?verb=Bogus (HTTP 200 with OAI error code badVerb).
+  x-standard: OAI-PMH 2.0 (http://www.openarchives.org/OAI/openarchivesprotocol.html)
+servers:
+  - url: https://archive.researchdata.leeds.ac.uk/cgi
+    description: Production OAI-PMH base (institution-operated EPrints 3)
+tags:
+  - name: OAI-PMH
+    description: Open Archives Initiative Protocol for Metadata Harvesting, version 2.0.
+paths:
+  /oai2:
+    get:
+      operationId: oaiRequest
+      summary: Issue an OAI-PMH 2.0 request
+      description: >-
+        Single-endpoint protocol. The `verb` parameter selects the operation; the remaining
+        parameters are conditional on the verb, per the OAI-PMH 2.0 specification. All responses are
+        XML. Errors are returned as HTTP 200 with an `<error code="…">` element — status code alone
+        is not a success signal on this surface.
+      tags: [OAI-PMH]
+      security: []
+      parameters:
+        - name: verb
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Identify, ListMetadataFormats, ListSets, ListIdentifiers, ListRecords, GetRecord]
+        - name: metadataPrefix
+          in: query
+          required: false
+          description: Required for ListIdentifiers, ListRecords and GetRecord.
+          schema:
+            type: string
+            enum: [oai_dc, didl, mets, oai_bibl, rdf, uketd_dc]
+        - name: identifier
+          in: query
+          required: false
+          description: 'Required for GetRecord. Form: oai:archive.researchdata.leeds.ac.uk:<eprintid>.'
+          schema:
+            type: string
+            examples: ['oai:archive.researchdata.leeds.ac.uk:1139']
+        - name: set
+          in: query
+          required: false
+          description: Set specification. Leeds encodes setSpec values as hex, e.g. 7374617475733D707562.
+          schema: { type: string }
+        - name: from
+          in: query
+          required: false
+          schema: { type: string, format: date-time }
+        - name: until
+          in: query
+          required: false
+          schema: { type: string, format: date-time }
+        - name: resumptionToken
+          in: query
+          required: false
+          description: Exclusive of all other arguments except verb.
+          schema: { type: string }
+      responses:
+        '200':
+          description: >-
+            An OAI-PMH XML response. Carries either the requested payload or an `<error>` element —
+            protocol errors are NOT signalled by HTTP status.
+          content:
+            text/xml:
+              schema:
+                type: string
+                contentMediaType: text/xml
+security: []
