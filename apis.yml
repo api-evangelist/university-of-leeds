@@ -55,6 +55,20 @@ tags:
   - Russell Group
   - Research Data
   - Research Repository
+  - Library
+  - Open Data
+  - OAI-PMH
+  - IIIF
+  - Research Computing
+  - Digital Collections
+tags_raw:
+  - University
+  - Higher Education
+  - Education
+  - United Kingdom
+  - Russell Group
+  - Research Data
+  - Research Repository
   - Libraries
   - Open Data
   - OAI-PMH
@@ -121,7 +135,7 @@ apis:
     developer documentation for these endpoints.
   humanURL: https://leeds.primo.exlibrisgroup.com/discovery/search?vid=44LEE_INST:VU1
   tags:
-  - Libraries
+  - Library
   - Discovery
   - Alma
   - Primo
@@ -323,9 +337,11 @@ apis:
   humanURL: https://archive.researchdata.leeds.ac.uk/
   baseURL: https://archive.researchdata.leeds.ac.uk/cgi/oai2
   tags:
+  - Spaces
   - Space
   tags_raw:
   - Spaces
+  - Space
   properties:
   - type: OpenAPI
     url: openapi/university-of-leeds-spaces-api-openapi.yml
@@ -371,8 +387,6 @@ apis:
   humanURL: https://leeds.primo.exlibrisgroup.com/discovery/search?vid=44LEE_INST:VU1
   baseURL: https://eprints.whiterose.ac.uk/cgi/oai2
   tags:
-  - OpenSearch
-  tags_raw:
   - Open Search
   properties:
   - type: OpenAPI
