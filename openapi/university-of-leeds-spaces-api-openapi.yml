@@ -49,19 +49,6 @@ paths:
           description: Not found.
 components:
   schemas:
-    OpeningHours:
-      type: object
-      description: Per-weekday opening window. Keys are lowercase English weekday names.
-      additionalProperties:
-        type: object
-        properties:
-          open:
-            type: boolean
-          from:
-            type: string
-            description: H:MM or HH:MM local time; empty string when closed.
-          to:
-            type: string
     Space:
       type: object
       description: One campus or library space. Field set read from the live 2026-08-30 response.
@@ -161,3 +148,16 @@ components:
           type: string
         twitter_screen_name:
           type: string
+    OpeningHours:
+      type: object
+      description: Per-weekday opening window. Keys are lowercase English weekday names.
+      additionalProperties:
+        type: object
+        properties:
+          open:
+            type: boolean
+          from:
+            type: string
+            description: H:MM or HH:MM local time; empty string when closed.
+          to:
+            type: string
