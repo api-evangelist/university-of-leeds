@@ -387,8 +387,6 @@ apis:
   humanURL: https://leeds.primo.exlibrisgroup.com/discovery/search?vid=44LEE_INST:VU1
   baseURL: https://eprints.whiterose.ac.uk/cgi/oai2
   tags:
-  - OpenSearch
-  tags_raw:
   - Open Search
   properties:
   - type: OpenAPI
